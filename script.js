@@ -934,3 +934,4 @@ document.addEventListener("mousemove", () => {
     pulseFrame = requestAnimationFrame(checkPulse);
   }
 });
+
