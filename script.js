@@ -106,18 +106,18 @@ class GradientBackground {
       uResolution: {
         value: new THREE.Vector2(window.innerWidth, window.innerHeight)
       },
-      uColor1: { value: new THREE.Vector3(0.945, 0.353, 0.133) }, // F15A22 - Orange
-      uColor2: { value: new THREE.Vector3(0.039, 0.055, 0.153) }, // 0a0e27 - Navy Blue
-      uColor3: { value: new THREE.Vector3(0.945, 0.353, 0.133) }, // F15A22 - Orange
-      uColor4: { value: new THREE.Vector3(0.039, 0.055, 0.153) }, // 0a0e27 - Navy Blue
-      uColor5: { value: new THREE.Vector3(0.945, 0.353, 0.133) }, // F15A22 - Orange
-      uColor6: { value: new THREE.Vector3(0.039, 0.055, 0.153) }, // 0a0e27 - Navy Blue
-      uSpeed: { value: 1.2 }, // Faster animation
-      uIntensity: { value: 1.8 },
+      uColor1: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 1944AA - Blue
+      uColor2: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
+      uColor3: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 1944AA - Blue
+      uColor4: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
+      uColor5: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 1944AA - Blue
+      uColor6: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
+      uSpeed: { value: 0.3 },
+      uIntensity: { value: 0.9 },
       uTouchTexture: { value: null },
       uGrainIntensity: { value: 0.08 },
       uZoom: { value: 1.0 }, // Zoom/scale control - lower = less zoomed (more visible)
-      uDarkNavy: { value: new THREE.Vector3(0.039, 0.055, 0.153) }, // #0a0e27 - Dark navy base color
+      uDarkNavy: { value: new THREE.Vector3(0.0, 0.0, 0.0) }, // #000000 - Black base color
       uGradientSize: { value: 1.0 }, // Control gradient size (smaller = more gradients)
       uGradientCount: { value: 6.0 }, // Number of gradient centers
       uColor1Weight: { value: 1.0 }, // Weight for color1 (orange) - reduce for more navy
@@ -318,7 +318,7 @@ class GradientBackground {
               // Ensure minimum brightness (navy blue base instead of grey/black)
               // Use higher threshold to ensure navy blue shows through in low-intensity areas
               float brightness1 = length(color);
-              float mixFactor1 = max(brightness1 * 1.2, 0.15); // Higher threshold for navy blue base
+              float mixFactor1 = max(brightness1 * 1.2, 0.0); // Higher threshold for navy blue base
               color = mix(uDarkNavy, color, mixFactor1);
               
               // Cap maximum brightness - increased for more contrast
@@ -365,7 +365,7 @@ class GradientBackground {
               // Ensure minimum brightness (navy blue base instead of grey/black)
               // Use higher threshold to ensure navy blue shows through in low-intensity areas
               float brightness2 = length(color);
-              float mixFactor2 = max(brightness2 * 1.2, 0.15); // Higher threshold for navy blue base
+              float mixFactor2 = max(brightness2 * 1.2, 0.0); // Higher threshold for navy blue base
               color = mix(uDarkNavy, color, mixFactor2);
               
               // Clamp to valid color range
@@ -435,45 +435,18 @@ class App {
     );
     this.camera.position.z = 50;
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0a0e27); // Dark navy
+    this.scene.background = new THREE.Color(0x000000); // Black
     this.clock = new THREE.Clock();
 
     this.touchTexture = new TouchTexture();
     this.gradientBackground = new GradientBackground(this);
     this.gradientBackground.uniforms.uTouchTexture.value = this.touchTexture.texture;
 
-    // Color schemes
+    // Fixed color scheme: #1944AA Blue + Black
     this.colorSchemes = {
       1: {
-        // Orange + Navy Blue
-        color1: new THREE.Vector3(0.945, 0.353, 0.133), // F15A22 - Orange
-        color2: new THREE.Vector3(0.039, 0.055, 0.153) // 0a0e27 - Navy Blue
-      },
-      2: {
-        // Turquoise + Coral Red-Orange
-        color1: new THREE.Vector3(1.0, 0.424, 0.314), // FF6C50 - Coral Red-Orange
-        color2: new THREE.Vector3(0.251, 0.878, 0.816) // 40E0D0 - Turquoise
-      },
-      3: {
-        // Orange + Navy + Turquoise (identical to scheme 1 but with turquoise added)
-        color1: new THREE.Vector3(0.945, 0.353, 0.133), // F15A22 - Orange
-        color2: new THREE.Vector3(0.039, 0.055, 0.153), // 0a0e27 - Navy Blue
-        color3: new THREE.Vector3(0.251, 0.878, 0.816) // 40E0D0 - Turquoise
-      },
-      4: {
-        // Based on Scheme 3: F26633 + 2D6B6D + D1AF9C
-        color1: new THREE.Vector3(0.949, 0.4, 0.2), // F26633 - Orange/Coral
-        color2: new THREE.Vector3(0.176, 0.42, 0.427), // 2D6B6D - Teal/Blue-Green
-        color3: new THREE.Vector3(0.82, 0.686, 0.612) // D1AF9C - Beige/Peach
-      },
-      5: {
-        // F15A22 + 004238 + F15A22 + 000000 + F15A22 + 000000
-        color1: new THREE.Vector3(0.945, 0.353, 0.133), // F15A22 - Orange
-        color2: new THREE.Vector3(0.0, 0.259, 0.22), // 004238 - Dark Teal (0, 66, 56)
-        color3: new THREE.Vector3(0.945, 0.353, 0.133), // F15A22 - Orange
-        color4: new THREE.Vector3(0.0, 0.0, 0.0), // 000000 - Black
-        color5: new THREE.Vector3(0.945, 0.353, 0.133), // F15A22 - Orange
-        color6: new THREE.Vector3(0.0, 0.0, 0.0) // 000000 - Black
+        color1: new THREE.Vector3(0.098, 0.267, 0.667), // 1944AA - Blue
+        color2: new THREE.Vector3(0.0, 0.0, 0.0)        // 000000 - Black
       }
     };
     this.currentScheme = 1;
@@ -487,115 +460,20 @@ class App {
     const colors = this.colorSchemes[scheme];
     const uniforms = this.gradientBackground.uniforms;
 
-    // Update all color uniforms
-    if (scheme === 3) {
-      // Scheme 3: Orange + Navy + Turquoise (identical to scheme 1 but with turquoise)
-      uniforms.uColor1.value.copy(colors.color1); // Orange
-      uniforms.uColor2.value.copy(colors.color2); // Navy
-      uniforms.uColor3.value.copy(colors.color3); // Turquoise
-      uniforms.uColor4.value.copy(colors.color1); // Orange
-      uniforms.uColor5.value.copy(colors.color2); // Navy
-      uniforms.uColor6.value.copy(colors.color3); // Turquoise
-    } else if (scheme === 4) {
-      // Scheme 4: Based on Scheme 3 with F26633, 2D6B6D, D1AF9C
-      uniforms.uColor1.value.copy(colors.color1); // F26633 - Orange/Coral
-      uniforms.uColor2.value.copy(colors.color2); // 2D6B6D - Teal/Blue-Green
-      uniforms.uColor3.value.copy(colors.color3); // D1AF9C - Beige/Peach
-      uniforms.uColor4.value.copy(colors.color1); // F26633 - Orange/Coral
-      uniforms.uColor5.value.copy(colors.color2); // 2D6B6D - Teal/Blue-Green
-      uniforms.uColor6.value.copy(colors.color3); // D1AF9C - Beige/Peach
-    } else if (scheme === 5) {
-      // Scheme 5: F15A22 + 004238 + F15A22 + 000000 + F15A22 + 000000
-      uniforms.uColor1.value.copy(colors.color1); // F15A22 - Orange
-      uniforms.uColor2.value.copy(colors.color2); // 004238 - Dark Teal
-      uniforms.uColor3.value.copy(colors.color3); // F15A22 - Orange
-      uniforms.uColor4.value.copy(colors.color4); // 000000 - Black
-      uniforms.uColor5.value.copy(colors.color5); // F15A22 - Orange
-      uniforms.uColor6.value.copy(colors.color6); // 000000 - Black
-    } else {
-      uniforms.uColor1.value.copy(colors.color1);
-      uniforms.uColor2.value.copy(colors.color2);
-      uniforms.uColor3.value.copy(colors.color1);
-      uniforms.uColor4.value.copy(colors.color2);
-      uniforms.uColor5.value.copy(colors.color1);
-      uniforms.uColor6.value.copy(colors.color2);
-    }
+    uniforms.uColor1.value.copy(colors.color1);
+    uniforms.uColor2.value.copy(colors.color2);
+    uniforms.uColor3.value.copy(colors.color1);
+    uniforms.uColor4.value.copy(colors.color2);
+    uniforms.uColor5.value.copy(colors.color1);
+    uniforms.uColor6.value.copy(colors.color2);
 
-    // Update background color and base color
-    if (scheme === 1) {
-      this.scene.background = new THREE.Color(0x0a0e27); // Navy blue for scheme 1
-      uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153); // #0a0e27 - Navy blue base color
-      // More gradient action: smaller gradients, more of them
-      uniforms.uGradientSize.value = 0.45; // Smaller gradient radius for more defined gradients
-      uniforms.uGradientCount.value = 12.0; // More gradient centers (12 instead of 6)
-      uniforms.uSpeed.value = 1.5; // Slightly faster for more movement
-      // Balance colors: reduce orange, increase navy
-      uniforms.uColor1Weight.value = 0.5; // Reduce orange intensity
-      uniforms.uColor2Weight.value = 1.8; // Increase navy intensity
-    } else if (scheme === 6) {
-      // Scheme 6: Identical to scheme 1 but with Orange, Navy, and Turquoise
-      this.scene.background = new THREE.Color(0x0a0e27); // Navy blue (same as scheme 1)
-      uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153); // #0a0e27 - Navy blue base color (same as scheme 1)
-      // More gradient action: smaller gradients, more of them (same as scheme 1)
-      uniforms.uGradientSize.value = 0.45; // Smaller gradient radius for more defined gradients
-      uniforms.uGradientCount.value = 12.0; // More gradient centers (12 instead of 6)
-      uniforms.uSpeed.value = 1.5; // Slightly faster for more movement
-      // Balance colors: reduce orange, increase navy (same as scheme 1)
-      uniforms.uColor1Weight.value = 0.5; // Reduce orange intensity
-      uniforms.uColor2Weight.value = 1.8; // Increase navy intensity
-    } else if (scheme === 7) {
-      // Scheme 7: Based on Scheme 6 with F26633, 2D6B6D, D1AF9C (same settings as Scheme 6)
-      this.scene.background = new THREE.Color(0x0a0e27); // Navy blue (same as scheme 6)
-      uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153); // #0a0e27 - Navy blue base color (same as scheme 6)
-      // More gradient action: smaller gradients, more of them (same as scheme 6)
-      uniforms.uGradientSize.value = 0.45; // Smaller gradient radius for more defined gradients
-      uniforms.uGradientCount.value = 12.0; // More gradient centers (12 instead of 6)
-      uniforms.uSpeed.value = 1.5; // Slightly faster for more movement
-      // Balance colors: same as scheme 6
-      uniforms.uColor1Weight.value = 0.5; // Reduce orange/coral intensity
-      uniforms.uColor2Weight.value = 1.8; // Increase teal intensity
-    } else if (scheme === 8) {
-      // Scheme 8: Identical to Scheme 1
-      this.scene.background = new THREE.Color(0x0a0e27); // Navy blue for scheme 8
-      uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153); // #0a0e27 - Navy blue base color
-      // More gradient action: smaller gradients, more of them
-      uniforms.uGradientSize.value = 0.45; // Smaller gradient radius for more defined gradients
-      uniforms.uGradientCount.value = 12.0; // More gradient centers (12 instead of 6)
-      uniforms.uSpeed.value = 1.5; // Slightly faster for more movement
-      // Balance colors: reduce orange, increase navy
-      uniforms.uColor1Weight.value = 0.5; // Reduce orange intensity
-      uniforms.uColor2Weight.value = 1.8; // Increase navy intensity
-    } else if (scheme === 5) {
-      // Scheme 5: Same settings as Scheme 1 but with F15A22 + 004238 + F15A22 + 000000 + F15A22 + 000000
-      this.scene.background = new THREE.Color(0x0a0e27); // Navy blue for scheme 5 (same as scheme 1)
-      uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153); // #0a0e27 - Navy blue base color (same as scheme 1)
-      // More gradient action: smaller gradients, more of them (same as scheme 1)
-      uniforms.uGradientSize.value = 0.45; // Smaller gradient radius for more defined gradients
-      uniforms.uGradientCount.value = 12.0; // More gradient centers (12 instead of 6)
-      uniforms.uSpeed.value = 1.5; // Slightly faster for more movement
-      // Balance colors: reduce orange, increase navy (same as scheme 1)
-      uniforms.uColor1Weight.value = 0.5; // Reduce orange intensity
-      uniforms.uColor2Weight.value = 1.8; // Increase navy intensity
-    } else if (scheme === 4) {
-      this.scene.background = new THREE.Color(0xffffff); // Off-white for scheme 4
-      uniforms.uDarkNavy.value.set(0, 0, 0); // #FAFAFA - Off-white base
-    } else if (scheme === 2) {
-      this.scene.background = new THREE.Color(0x0a0e27); // Default dark navy for scheme 2
-      uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153); // #0a0e27 - Default dark navy
-      uniforms.uGradientSize.value = 1.0; // Default size
-      uniforms.uGradientCount.value = 6.0; // Default count
-      uniforms.uSpeed.value = 1.2; // Default speed
-      uniforms.uColor1Weight.value = 1.0; // Default weight
-      uniforms.uColor2Weight.value = 1.0; // Default weight
-    } else {
-      this.scene.background = new THREE.Color(0x0a0e27); // Default dark navy
-      uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153); // #0a0e27 - Default dark navy
-      uniforms.uGradientSize.value = 1.0; // Default size
-      uniforms.uGradientCount.value = 6.0; // Default count
-      uniforms.uSpeed.value = 1.2; // Default speed
-      uniforms.uColor1Weight.value = 1.0; // Default weight
-      uniforms.uColor2Weight.value = 1.0; // Default weight
-    }
+    this.scene.background = new THREE.Color(0x000000);
+    uniforms.uDarkNavy.value.set(0.0, 0.0, 0.0);
+    uniforms.uGradientSize.value = 0.3;
+    uniforms.uGradientCount.value = 6.0;
+    uniforms.uSpeed.value = 0.6;
+    uniforms.uColor1Weight.value = 0.5;
+    uniforms.uColor2Weight.value = 1.0;
   }
 
   init() {
@@ -695,149 +573,6 @@ if (document.readyState === "loading") {
   setTimeout(() => app.render(), 0);
 }
 
-// Color scheme buttons
-const colorButtons = document.querySelectorAll(".color-btn");
-colorButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const scheme = parseInt(btn.dataset.scheme);
-    app.setColorScheme(scheme);
-
-    // Update active state
-    colorButtons.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    // Update color pickers when scheme changes
-    updateColorPickersFromScheme();
-  });
-});
-
-// Color Adjuster Panel Functions
-const colorAdjusterPanel = document.getElementById("colorAdjusterPanel");
-const toggleAdjusterBtn = document.getElementById("toggleAdjusterBtn");
-const closeAdjusterBtn = document.getElementById("closeAdjusterBtn");
-
-// Toggle panel
-toggleAdjusterBtn.addEventListener("click", () => {
-  colorAdjusterPanel.classList.toggle("open");
-  if (colorAdjusterPanel.classList.contains("open")) {
-    updateColorPickersFromScheme();
-    toggleAdjusterBtn.style.display = "none";
-  } else {
-    toggleAdjusterBtn.style.display = "block";
-  }
-});
-
-closeAdjusterBtn.addEventListener("click", () => {
-  colorAdjusterPanel.classList.remove("open");
-  toggleAdjusterBtn.style.display = "block";
-});
-
-// Convert RGB (0-1) to Hex
-function rgbToHex(r, g, b) {
-  const toHex = (n) => {
-    const hex = Math.round(n * 255).toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
-  };
-  return "#" + toHex(r) + toHex(g) + toHex(b);
-}
-
-// Convert Hex to RGB (0-1)
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? {
-        r: parseInt(result[1], 16) / 255,
-        g: parseInt(result[2], 16) / 255,
-        b: parseInt(result[3], 16) / 255
-      }
-    : null;
-}
-
-// Update color pickers from current scheme
-function updateColorPickersFromScheme() {
-  const uniforms = app.gradientBackground.uniforms;
-  const colors = [
-    uniforms.uColor1.value,
-    uniforms.uColor2.value,
-    uniforms.uColor3.value,
-    uniforms.uColor4.value,
-    uniforms.uColor5.value,
-    uniforms.uColor6.value
-  ];
-
-  colors.forEach((color, index) => {
-    const picker = document.getElementById(`colorPicker${index + 1}`);
-    const display = document.getElementById(`colorValue${index + 1}`);
-    const hex = rgbToHex(color.x, color.y, color.z);
-    picker.value = hex;
-    display.value = hex.toUpperCase();
-  });
-}
-
-// Update gradient when color picker changes
-for (let i = 1; i <= 6; i++) {
-  const picker = document.getElementById(`colorPicker${i}`);
-  const display = document.getElementById(`colorValue${i}`);
-
-  picker.addEventListener("input", (e) => {
-    const hex = e.target.value;
-    const rgb = hexToRgb(hex);
-
-    if (rgb) {
-      const uniforms = app.gradientBackground.uniforms;
-      const colorUniform = uniforms[`uColor${i}`];
-
-      if (colorUniform) {
-        colorUniform.value.set(rgb.r, rgb.g, rgb.b);
-        display.value = hex.toUpperCase();
-      }
-    }
-  });
-}
-
-// Copy color value
-document.querySelectorAll(".copy-btn").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const colorIndex = e.target.dataset.copy;
-    const display = document.getElementById(`colorValue${colorIndex}`);
-    const text = display.value;
-
-    navigator.clipboard.writeText(text).then(() => {
-      e.target.textContent = "Copied!";
-      e.target.classList.add("copied");
-      setTimeout(() => {
-        e.target.textContent = "Copy";
-        e.target.classList.remove("copied");
-      }, 2000);
-    });
-  });
-});
-
-// Export all colors
-const exportAllBtn = document.getElementById("exportAllBtn");
-exportAllBtn.addEventListener("click", () => {
-  const colors = [];
-  for (let i = 1; i <= 6; i++) {
-    const display = document.getElementById(`colorValue${i}`);
-    colors.push(display.value);
-  }
-
-  const exportText = `Color Scheme:\n${colors
-    .map((c, i) => `Color ${i + 1}: ${c}`)
-    .join("\n")}\n\nHex Array: [${colors.map((c) => `"${c}"`).join(", ")}]`;
-
-  navigator.clipboard.writeText(exportText).then(() => {
-    exportAllBtn.textContent = "Copied!";
-    exportAllBtn.style.background = "rgba(76, 175, 80, 0.3)";
-    exportAllBtn.style.borderColor = "rgba(76, 175, 80, 0.5)";
-    setTimeout(() => {
-      exportAllBtn.textContent = "Export All Colors";
-      exportAllBtn.style.background = "";
-      exportAllBtn.style.borderColor = "";
-    }, 2000);
-  });
-});
-
 // Custom cursor
 const cursor = document.getElementById("customCursor");
 let mouseX = 0;
@@ -890,32 +625,6 @@ footerLink.addEventListener("mouseleave", () => {
   cursor.style.borderWidth = "2px";
 });
 
-// Make cursor larger on hover over color buttons
-colorButtons.forEach((btn) => {
-  btn.addEventListener("mouseenter", () => {
-    cursor.style.width = "50px";
-    cursor.style.height = "50px";
-    cursor.style.borderWidth = "3px";
-  });
-  btn.addEventListener("mouseleave", () => {
-    cursor.style.width = "40px";
-    cursor.style.height = "40px";
-    cursor.style.borderWidth = "2px";
-  });
-});
-
-// Make cursor larger on hover over toggle adjuster button
-toggleAdjusterBtn.addEventListener("mouseenter", () => {
-  cursor.style.width = "50px";
-  cursor.style.height = "50px";
-  cursor.style.borderWidth = "3px";
-});
-toggleAdjusterBtn.addEventListener("mouseleave", () => {
-  cursor.style.width = "40px";
-  cursor.style.height = "40px";
-  cursor.style.borderWidth = "2px";
-});
-
 // Optimized pulse effect - use requestAnimationFrame instead of setTimeout
 let lastMouseMoveTime = 0;
 let pulseFrame = null;
@@ -934,4 +643,3 @@ document.addEventListener("mousemove", () => {
     pulseFrame = requestAnimationFrame(checkPulse);
   }
 });
-
