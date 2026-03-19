@@ -469,10 +469,10 @@ class App {
 
     this.scene.background = new THREE.Color(0x000000);
     uniforms.uDarkNavy.value.set(0.0, 0.0, 0.0);
-    uniforms.uGradientSize.value = 0.3;
-    uniforms.uGradientCount.value = 6.0;
+    uniforms.uGradientSize.value = 0.5;
+    uniforms.uGradientCount.value = 8.0;
     uniforms.uSpeed.value = 0.6;
-    uniforms.uColor1Weight.value = 0.5;
+    uniforms.uColor1Weight.value = 0.8;
     uniforms.uColor2Weight.value = 1.0;
   }
 
