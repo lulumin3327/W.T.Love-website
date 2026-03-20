@@ -80,14 +80,12 @@ class TouchTexture {
     intensity *= point.force;
 
     const radius = this.radius;
-    let color = `${((point.vx + 1) / 2) * 255}, ${
-      ((point.vy + 1) / 2) * 255
-    }, ${intensity * 255}`;
-    let offset = this.size * 5;
+    let color = `38, 21, 100`;
+    let offset = this.size * 10;
     this.ctx.shadowOffsetX = offset;
     this.ctx.shadowOffsetY = offset;
     this.ctx.shadowBlur = radius * 1;
-    this.ctx.shadowColor = `rgba(${color},${0.2 * intensity})`;
+    this.ctx.shadowColor = `rgba(${color},${0.1 * intensity})`;
 
     this.ctx.beginPath();
     this.ctx.fillStyle = "rgba(255,0,0,1)";
