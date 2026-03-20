@@ -80,15 +80,19 @@ class TouchTexture {
     intensity *= point.force;
 
     const radius = this.radius;
-    let color = `38, 21, 100`;
     let offset = this.size * 10;
+    
     this.ctx.shadowOffsetX = offset;
     this.ctx.shadowOffsetY = offset;
     this.ctx.shadowBlur = radius * 1;
-    this.ctx.shadowColor = `rgba(${color},${0.1 * intensity})`;
+    this.ctx.shadowColor = `rgba(146, 173, 203, ${intensity * 0.15})`;
+
+    const r = Math.floor((point.vx * 0.5 + 0.5) * 255);
+    const g = Math.floor((point.vy * 0.5 + 0.5) * 255);
+    const b = Math.floor(intensity * 255);
 
     this.ctx.beginPath();
-    this.ctx.fillStyle = "rgba(255,0,0,1)";
+    this.ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 1)`;
     this.ctx.arc(pos.x - offset, pos.y - offset, radius, 0, Math.PI * 2);
     this.ctx.fill();
   }
@@ -104,16 +108,16 @@ class GradientBackground {
       uResolution: {
         value: new THREE.Vector2(window.innerWidth, window.innerHeight)
       },
-      uColor1: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 1944AA - Blue
+      uColor1: { value: new THREE.Vector3(0.573, 0.678, 0.796) }, // 92ADCB - Blue
       uColor2: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
-      uColor3: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 1944AA - Blue
+      uColor3: { value: new THREE.Vector3(0.573, 0.678, 0.796) }, // 92ADCB - Blue
       uColor4: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
-      uColor5: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 1944AA - Blue
+      uColor5: { value: new THREE.Vector3(0.573, 0.678, 0.796) }, // 92ADCB - Blue
       uColor6: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
       uSpeed: { value: 0.3 },
-      uIntensity: { value: 0.9 },
+      uIntensity: { value: 0.5 },
       uTouchTexture: { value: null },
-      uGrainIntensity: { value: 0.08 },
+      uGrainIntensity: { value: 0.0 },
       uZoom: { value: 1.0 }, // Zoom/scale control - lower = less zoomed (more visible)
       uDarkNavy: { value: new THREE.Vector3(0.0, 0.0, 0.0) }, // #000000 - Black base color
       uGradientSize: { value: 1.0 }, // Control gradient size (smaller = more gradients)
@@ -307,11 +311,11 @@ class GradientBackground {
               // Clamp and apply intensity
               color = clamp(color, vec3(0.0), vec3(1.0)) * uIntensity;
               
-              // Enhanced color saturation for more vibrant look
+              // Keep original color without oversaturation
               float luminance = dot(color, vec3(0.299, 0.587, 0.114));
-              color = mix(vec3(luminance), color, 1.35);
+              color = mix(vec3(luminance), color, 1.0);
               
-              color = pow(color, vec3(0.92)); // Slight gamma adjustment for better contrast
+              color = pow(color, vec3(1.0)); // No gamma adjustment
               
               // Ensure minimum brightness (navy blue base instead of grey/black)
               // Use higher threshold to ensure navy blue shows through in low-intensity areas
@@ -350,15 +354,11 @@ class GradientBackground {
               
               vec3 color = getGradientColor(uv, uTime);
               
-              // Apply grain effect
+              // Minimal grain effect
               float grainValue = grain(uv, uTime);
-              color += grainValue * uGrainIntensity;
+              color += grainValue * uGrainIntensity * 0.3;
               
-              // Subtle color shifting - optimized with single calculation
-              float timeShift = uTime * 0.5;
-              color.r += sin(timeShift) * 0.02;
-              color.g += cos(timeShift * 1.4) * 0.02;
-              color.b += sin(timeShift * 1.2) * 0.02;
+              // No color shifting - keep pure blue
               
               // Ensure minimum brightness (navy blue base instead of grey/black)
               // Use higher threshold to ensure navy blue shows through in low-intensity areas
@@ -440,10 +440,9 @@ class App {
     this.gradientBackground = new GradientBackground(this);
     this.gradientBackground.uniforms.uTouchTexture.value = this.touchTexture.texture;
 
-    // Fixed color scheme: #1944AA Blue + Black
     this.colorSchemes = {
       1: {
-        color1: new THREE.Vector3(0.098, 0.267, 0.667), // 1944AA - Blue
+        color1: new THREE.Vector3(0.573, 0.678, 0.796), // 92ADCB - Blue
         color2: new THREE.Vector3(0.0, 0.0, 0.0)        // 000000 - Black
       }
     };
