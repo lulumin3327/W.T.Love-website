@@ -153,6 +153,41 @@ header, section, footer {
   border-radius: 50%;
 }
 
+#enter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+}
+
+/* 文字呼吸燈效果 */
+#enter-overlay p span {
+  color: beige;
+  font-family: 'Iosevka Charon';
+  letter-spacing: 5px;
+  animation: entranceFade 2s infinite alternate;
+}
+
+/* 隱藏時的狀態：淡出並稍微放大 */
+#enter-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+}
+
+@keyframes entranceFade {
+  from { opacity: 0.4; filter: blur(1px); }
+  to { opacity: 1; filter: blur(0px); }
+}
+
 /* Hero 容器 */
 .hero {
   position: relative;
@@ -201,34 +236,72 @@ header, section, footer {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none; /* 重要：讓點擊穿透心形，不影響網頁操作 */
-  z-index: 9999; /* 確保在所有圖層之上 */
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: visible;
 }
 
 .fixed-heart {
   position: absolute;
-  width: 80px; /* 根據需求調整大小 */
-  height: auto;
-  opacity: 0.75;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
-  animation: heartFloat 6s ease-in-out infinite; /* 加入微弱的浮動動畫 */
+  opacity: 0.5;
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+  transition: transform 0.2s ease-out;
+  display: block;
 }
 
-/* 根據 Figma 座標定位愛心 */
-.heart-1 { top: 50px; left: 53px; width: 94px; animation-delay: 0s; }
-.heart-2 { top: 797px; left: 77px; width: 94px; animation-delay: 1s; }
-.heart-3 { top: 50px; left: 1003px; width: 162px; animation-delay: 2s; }
-.heart-4 { top: 861px; left: 1201px; width: 94px; animation-delay: 1.5s; }
+.heart-1 {
+  width: 200px;
+  top: 10%;
+  right: 5%;
+  animation-delay: 0s;
+}
 
+/* 2. 右上小愛心 (Figma: left 1143, top 266) */
+.heart-2 {
+  width: 94px;
+  top: 30%;
+  right: 5%;
+  animation-delay: 1.2s;
+}
+
+/* 3. 左上中愛心 (Figma: left 67, top 105) */
+.heart-3 {
+  width: 100px;
+  top: 30%;
+  left: 3%;
+  animation-delay: 2.5s;
+}
+
+/* 4. 右下中愛心 (Figma: left 1132, top 564) */
+.heart-4 {
+  width: 94px;
+  bottom: 25%;
+  right: 8%;
+  animation-delay: 0.8s;
+}
+
+/* 5. 左下小愛心 (Figma: left 31, top 501) */
+.heart-5 {
+  width: 72px;
+  bottom: 37%;
+  left: 3%;
+  animation-delay: 3.1s;
+}
+
+/* 6. 左下大愛心 (Figma: left 53, top 605) */
+.heart-6 {
+  width: 200px;
+  bottom: 15%;
+  left: 2%;
+  animation-delay: 1.8s;
+}
+
+/* 修正浮動動畫，讓移動幅度更細膩 */
 @keyframes heartFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(5deg);
-  }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
 }
 
 #webGLApp {

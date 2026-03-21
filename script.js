@@ -1,8 +1,12 @@
-// TouchTexture class
-
 const overlay = document.getElementById('enter-overlay');
 overlay.addEventListener('click', () => {
-    overlay.style.display = 'none'; // 隱藏進入畫面
+    overlay.classList.add('fade-out'); // 觸發 CSS 淡出動畫
+    
+    // 等動畫結束後再完全移除或隱藏（0.8s 需對應 CSS 的 transition 時間）
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 800);
+    
     togglePlay(); // 開始播放音樂
 });
 class TouchTexture {
@@ -781,14 +785,21 @@ document.querySelectorAll('.vi-section').forEach(section => {
 // 讓固定位置的心形隨滑鼠移動產生微小的視差感
 document.addEventListener('mousemove', (e) => {
   const hearts = document.querySelectorAll('.fixed-heart');
-  const x = (window.innerWidth - e.pageX) / 50;
-  const y = (window.innerHeight - e.pageY) / 50;
+  
+  // 計算位移量 (數值越大移動幅度越明顯)
+  // 將原本除以 50 改為除以 60，讓動作更細膩一些
+  const mouseXRatio = (e.clientX / window.innerWidth) - 0.5;
+  const mouseYRatio = (e.clientY / window.innerHeight) - 0.5;
 
   hearts.forEach((heart, index) => {
-    // 每個心形移動速度稍微不同
-    const speed = (index + 1) * 0.5;
-    heart.style.marginLeft = `${x * speed}px`;
-    heart.style.marginTop = `${y * speed}px`;
+    // 每個心形設定不同的移動強度 (數值越大移動越明顯)
+    const depth = (index + 1) * 15; 
+    
+    const moveX = mouseXRatio * depth;
+    const moveY = mouseYRatio * depth;
+
+    // 使用 transform 進行位移，不會影響原本的 top/left 佈局
+    heart.style.transform = `translate(${moveX}px, ${moveY}px)`;
   });
 });
 
@@ -843,12 +854,12 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '100%',
     width: '100%',
-    videoId: 'yt-link',
+    videoId: 'pV7m0Gow5QA',
     playerVars: {
       'autoplay': 1,       // 自動播放
       'controls': 0,       // 隱藏控制列
       'loop': 1,           // 循環播放 (需搭配 playlist)
-      'playlist': 'yt-link', // 循環播放
+      'playlist': 'pV7m0Gow5QA', // 循環播放
       'modestbranding': 1, // 減少 YouTube Logo
       'rel': 0,            // 不顯示相關影片
       'showinfo': 0,
