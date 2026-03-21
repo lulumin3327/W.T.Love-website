@@ -898,3 +898,20 @@ if(creditsSection) {
 
   creditsObserver.observe(creditsSection);
 }
+
+// Footer 淡入效果
+const footer = document.querySelector('.main-footer');
+if (footer) {
+  footer.style.opacity = '0';
+  footer.style.transition = 'opacity 1.5s ease-in';
+
+  const footerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        footer.style.opacity = '1';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  footerObserver.observe(footer);
+}
