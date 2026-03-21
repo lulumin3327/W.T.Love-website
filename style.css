@@ -87,3 +87,178 @@ header, section, footer {
 body {
   cursor: none;
 }
+
+/* ===== Hero Section ===== */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: transparent; /* 改成透明 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Border at bottom */
+.hero-border {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: #575757;
+  pointer-events: none;
+}
+
+/* Main container (1280x800) */
+.hero-container {
+  position: relative;
+  width: 1280px;
+  height: 800px;
+  flex-shrink: 0;
+}
+
+/* ===== Background Image (rotated 90deg) ===== */
+.bg-image-wrapper {
+  position: absolute;
+  left: calc(50% + 105px);
+  top: -113px;
+  bottom: -87.13px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1778 / 1000.125;
+}
+
+.bg-image-rotated {
+  width: 1000.125px;
+  height: 1778px;
+  flex-shrink: 0;
+  transform: rotate(90deg);
+  position: relative;
+}
+
+.bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.88;
+  pointer-events: none;
+  max-width: none;
+}
+
+/* ===== W.T.Love Logo ===== */
+.wtlove-logo {
+  position: absolute;
+  left: 16.74%;
+  right: 16.76%;
+  top: 40.38%;
+  bottom: 43.7%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.wtlove-logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Hearts ===== */
+.heart {
+  position: absolute;
+  pointer-events: none;
+}
+
+.heart svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Heart 1 - Top Right (large) */
+.heart-top-right {
+  left: 1017px;
+  top: 89px;
+  width: 162.113px;
+  height: 141.001px;
+}
+
+.heart-top-right svg {
+  transform: translate(-26.45%, -23.01%);
+  width: calc(100% / (1 - 0.5292));
+  height: calc(100% / (1 - 0.5292));
+}
+
+/* Heart 2 - Right Mid (small) */
+.heart-right-mid {
+  left: 1143px;
+  top: 266px;
+  width: 94.278px;
+  height: 81.999px;
+}
+
+.heart-right-mid svg {
+  transform: translate(-45.49%, -39.56%);
+  width: calc(100% / (1 - 0.9098));
+  height: calc(100% / (1 - 0.9098));
+}
+
+/* Heart 3 - Bottom Left (small) */
+.heart-bottom-left {
+  left: 241px;
+  top: 598px;
+  width: 94.278px;
+  height: 81.999px;
+}
+
+.heart-bottom-left svg {
+  transform: translate(-45.49%, -39.56%);
+  width: calc(100% / (1 - 0.9098));
+  height: calc(100% / (1 - 0.9098));
+}
+
+/* Heart 4 - Top Left (small) */
+.heart-top-left {
+  left: 67px;
+  top: 105px;
+  width: 94.277px;
+  height: 81.999px;
+}
+
+.heart-top-left svg {
+  transform: translate(-45.49%, -39.56%);
+  width: calc(100% / (1 - 0.9098));
+  height: calc(100% / (1 - 0.9098));
+}
+
+/* Heart 5 - Bottom Left Big (large) */
+.heart-bottom-left-big {
+  left: 52px;
+  top: 669px;
+  width: 162.113px;
+  height: 141px;
+}
+
+.heart-bottom-left-big svg {
+  transform: translate(-26.45%, -23.01%);
+  width: calc(100% / (1 - 0.5292));
+  height: calc(100% / (1 - 0.5292));
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1280px) {
+  .hero-container {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1280 / 800;
+  }
+  
+  .heart {
+    display: none;
+  }
+}
