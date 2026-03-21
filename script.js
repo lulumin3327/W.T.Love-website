@@ -4,7 +4,7 @@ class TouchTexture {
     this.size = 64;
     this.width = this.height = this.size;
     this.maxAge = 64;
-    this.radius = 0.06 * this.size; // Much larger touch radius for more obvious effect
+    this.radius = 0.15 * this.size; // Touch radius for interaction effect
     this.speed = 1 / this.maxAge;
     this.trail = [];
     this.last = null;
