@@ -622,17 +622,19 @@ if (cursor) {
     requestAnimationFrame(animate);
   }
 
-  const footerLink = document.querySelector(".footer a");
-  if (footerLink) {
-    footerLink.addEventListener("mouseenter", () => {
-      cursor.style.width = "50px";
-      cursor.style.height = "50px";
-    });
-    footerLink.addEventListener("mouseleave", () => {
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest('a, button, .color-btn, .export-btn, .copy-btn, .toggle-adjuster-btn, .player-ctrl, .logo, .nav ul li')) {
+      cursor.style.width = "30px";
+      cursor.style.height = "30px";
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest('a, button, .color-btn, .export-btn, .copy-btn, .toggle-adjuster-btn, .player-ctrl, .logo, .nav ul li')) {
       cursor.style.width = "20px";
       cursor.style.height = "20px";
-    });
-  }
+    }
+  });
 }
 
 // 音樂播放器邏輯

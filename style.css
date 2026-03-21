@@ -2,19 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: none !important;
 }
 body {
   overflow-x: hidden;
   overflow-y: auto; 
-  cursor: none;
   font-family: sans-serif;
   color: beige;
   position: relative;
   z-index: 10;
-}
-
-a, button, .color-btn, .export-btn, .copy-btn, .toggle-adjuster-btn, .color-adjuster-close, .play-btn, img, .player-ctrl {
-  cursor: none;
 }
 
 header, section, footer {
@@ -78,7 +74,8 @@ header, section, footer {
   pointer-events: none; /* 必須加上這行，否則滑鼠會擋住點擊事件 */
   z-index: 9999;
   transform: translate(-50%, -50%); /* 讓圓心對準指尖 */
-  transition: transform 0.1s ease-out;
+  transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
+  opacity: 0.7;
 }
 
 .custom-cursor::before {
