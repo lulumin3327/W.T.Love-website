@@ -144,3 +144,120 @@ header, section, footer {
 .hero {
   z-index: 5; /* 內容在泡泡上面 */
 }
+
+/* 播放器主體 */
+.audio-player {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 8px 24px;
+  border-radius: 50px;
+  gap: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 450px; /* 根據參考圖適度調整寬度 */
+  pointer-events: auto;
+  margin: 0 auto;
+}
+
+.audio-player img {
+  width: 18px; /* 增加一點大小 */
+  height: 18px;
+  cursor: pointer;
+  display: block;
+  opacity: 0.8;
+  transition: opacity 0.3s, transform 0.2s;
+}
+
+.audio-player img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.player-ctrl {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.player-ctrl img {
+  width: 14px;
+  height: 14px;
+}
+
+#currentTime {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: white;
+  min-width: 45px;
+  font-variant-numeric: tabular-nums; /* 防止數字跳動 */
+}
+
+/* 進度條容器 */
+.progress-container {
+  flex-grow: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* 實際進度條 */
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  position: relative;
+}
+
+/* 進度條上的小圓點 */
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: -3px;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+}
+
+.volume-ctrl, .menu-ctrl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volume-ctrl img, .menu-ctrl img {
+  width: 18px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.volume-ctrl img:hover, .menu-ctrl img:hover {
+  opacity: 1;
+}
+
+header {
+  position: fixed;
+  /* 調整垂直位置：配合你原本 JS 設定的 top: 75% */
+  top: 75%; 
+  left: 0;
+  width: 100%; /* 撐滿全寬，方便內部的內容對齊 */
+  display: flex;
+  /* 關鍵修改：使用 justify-content 讓內容在 header 容器內水平居中 */
+  justify-content: center; 
+  align-items: center;
+  z-index: 100;
+  pointer-events: none; /* 穿透點擊，不干擾背景 */
+}
+
+header * {
+  pointer-events: auto;
+}

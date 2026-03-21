@@ -13,20 +13,29 @@
 <body>
   <div class="custom-cursor" id="customCursor"></div>
 
-  <header>
-    <div class="logo">W.T.Love</div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">VI</a></li>
-        <li><a href="#">photography</a></li>
-        <li><a href="#">MV</a></li>
-        <li><a href="#">credits</a></li>
-        <li><a href="#">contact</a></li>
-      </ul>
-    </nav>
-  </header>
+<header>
+  <div class="audio-player">
+    <button id="playBtn" class="player-ctrl">
+      <img src="assets/play.svg" id="playIcon" alt="play">
+    </button>
+    
+    <span id="currentTime">00:00</span>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="volume-ctrl">
+      <img src="assets/audio.svg" alt="volume">
+    </div>
+    
+    <div class="menu-ctrl">
+      <img src="assets/menu.svg" alt="menu">
+    </div>
+  </div>
+</header>
+
+<audio id="bgMusic" src="assets/audio-music.mp3" loop></audio>
 
 <section id="home" class="hero">
   <div class="hero-container">

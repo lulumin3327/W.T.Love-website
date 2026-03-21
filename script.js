@@ -661,3 +661,55 @@ document.addEventListener("mousemove", () => {
     pulseFrame = requestAnimationFrame(checkPulse);
   }
 });
+
+// 音樂播放器邏輯
+const music = document.getElementById('bgMusic');
+const playBtn = document.getElementById('playBtn');
+const playIcon = document.getElementById('playIcon');
+const currentTimeDisplay = document.getElementById('currentTime');
+const progressBar = document.getElementById('progressBar');
+
+let isPlaying = false;
+
+// 切換播放/停止
+function togglePlay() {
+  if (isPlaying) {
+    music.pause();
+    playIcon.src = 'assets/play.svg';
+  } else {
+    music.play();
+    playIcon.src = 'assets/stop.svg';
+  }
+  isPlaying = !isPlaying;
+}
+
+// 格式化時間 (00:00)
+function formatTime(seconds) {
+  const min = Math.floor(seconds / 60);
+  const sec = Math.floor(seconds % 60);
+  return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+}
+
+// 更新進度與時間
+music.addEventListener('timeupdate', () => {
+  const { currentTime, duration } = music;
+  if (duration) {
+    // 更新時間文字
+    currentTimeDisplay.textContent = formatTime(currentTime);
+    // 更新進度條長度
+    const progressPercent = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressPercent}%`;
+  }
+});
+
+// 點擊按鈕觸發
+playBtn.addEventListener('click', togglePlay);
+
+// (選填) 點擊進度條跳轉時間
+const progressContainer = document.querySelector('.progress-container');
+progressContainer.addEventListener('click', (e) => {
+  const width = progressContainer.clientWidth;
+  const clickX = e.offsetX;
+  const duration = music.duration;
+  music.currentTime = (clickX / width) * duration;
+});
