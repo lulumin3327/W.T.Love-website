@@ -595,10 +595,17 @@ if (document.readyState === "loading") {
 const cursor = document.getElementById('customCursor');
 
 if (cursor) {
+  let mouseX = 0, mouseY = 0;
+  let cursorX = 0, cursorY = 0;
+  let isAnimating = false;
+
   window.addEventListener('mousemove', (e) => {
-    // 使用 clientX/Y 獲取相對於視窗的座標
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!isAnimating) {
+      isAnimating = true;
+      animate();
+    }
   });
 
   window.addEventListener('mousedown', () => {
@@ -608,68 +615,25 @@ if (cursor) {
   window.addEventListener('mouseup', () => {
     cursor.style.transform = 'translate(-50%, -50%) scale(1)';
   });
-} else {
-  console.error("找不到 customCursor 元素！");
-}
 
-let isCursorAnimating = false;
-function animateCursor() {
-  if (!isCursorAnimating) return;
-  // Instant following - no delay
-  cursorX = mouseX;
-  cursorY = mouseY;
+  function animate() {
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+    requestAnimationFrame(animate);
+  }
 
-  cursor.style.left = cursorX + "px";
-  cursor.style.top = cursorY + "px";
-
-  requestAnimationFrame(animateCursor);
-}
-
-// Only start animation when mouse moves
-document.addEventListener(
-  "mousemove",
-  () => {
-    if (!isCursorAnimating) {
-      isCursorAnimating = true;
-      animateCursor();
-    }
-  },
-  { once: false }
-);
-
-// Cursor animation starts on first mouse move
-
-// Make cursor larger on hover over interactive elements
-const footerLink = document.querySelector(".footer a");
-footerLink.addEventListener("mouseenter", () => {
-  cursor.style.width = "50px";
-  cursor.style.height = "50px";
-  cursor.style.borderWidth = "3px";
-});
-footerLink.addEventListener("mouseleave", () => {
-  cursor.style.width = "40px";
-  cursor.style.height = "40px";
-  cursor.style.borderWidth = "2px";
-});
-
-// Optimized pulse effect - use requestAnimationFrame instead of setTimeout
-let lastMouseMoveTime = 0;
-let pulseFrame = null;
-function checkPulse() {
-  if (Date.now() - lastMouseMoveTime > 100) {
-    cursor.style.borderWidth = "2px";
-    pulseFrame = null;
-  } else {
-    pulseFrame = requestAnimationFrame(checkPulse);
+  const footerLink = document.querySelector(".footer a");
+  if (footerLink) {
+    footerLink.addEventListener("mouseenter", () => {
+      cursor.style.width = "50px";
+      cursor.style.height = "50px";
+    });
+    footerLink.addEventListener("mouseleave", () => {
+      cursor.style.width = "20px";
+      cursor.style.height = "20px";
+    });
   }
 }
-document.addEventListener("mousemove", () => {
-  lastMouseMoveTime = Date.now();
-  cursor.style.borderWidth = "2.5px";
-  if (!pulseFrame) {
-    pulseFrame = requestAnimationFrame(checkPulse);
-  }
-});
 
 // 音樂播放器邏輯
 const music = document.getElementById('bgMusic');
@@ -701,8 +665,16 @@ function togglePlay() {
 
 if (playBtn) {
     playBtn.addEventListener('click', togglePlay);
-} else {
-    console.error("找不到 id 為 playBtn 的元素！");
+}
+
+const progressContainer = document.querySelector('.progress-container');
+if (progressContainer) {
+  progressContainer.addEventListener('click', (e) => {
+    const width = progressContainer.clientWidth;
+    const clickX = e.offsetX;
+    const duration = music.duration;
+    music.currentTime = (clickX / width) * duration;
+  });
 }
 
 // 格式化時間 (00:00)
@@ -720,16 +692,5 @@ music.addEventListener('ended', () => {
   currentTimeDisplay.textContent = '00:00';
 });
 
-// 點擊按鈕觸發
-playBtn.addEventListener('click', togglePlay);
 
-// (選填) 點擊進度條跳轉時間
-const progressContainer = document.querySelector('.progress-container');
-
-progressContainer.addEventListener('click', (e) => {
-  const width = progressContainer.clientWidth;
-  const clickX = e.offsetX;
-  const duration = music.duration;
-  music.currentTime = (clickX / width) * duration;
-});
 
