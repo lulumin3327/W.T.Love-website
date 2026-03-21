@@ -82,19 +82,33 @@ class TouchTexture {
     const radius = this.radius;
     let offset = this.size * 10;
     
-    this.ctx.shadowOffsetX = offset;
-    this.ctx.shadowOffsetY = offset;
-    this.ctx.shadowBlur = radius * 1;
-    this.ctx.shadowColor = `rgba(146, 173, 203, ${intensity * 0.15})`;
-
-    const r = Math.floor((point.vx * 0.5 + 0.5) * 255);
-    const g = Math.floor((point.vy * 0.5 + 0.5) * 255);
-    const b = Math.floor(intensity * 255);
-
-    this.ctx.beginPath();
-    this.ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 1)`;
-    this.ctx.arc(pos.x - offset, pos.y - offset, radius, 0, Math.PI * 2);
-    this.ctx.fill();
+    // Draw multiple particles for powder/dust effect
+    const particleCount = 40; // Number of particles
+    const spreadRadius = radius * 4; // How far particles spread
+    
+    for (let i = 0; i < particleCount; i++) {
+      // Random position around center
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * spreadRadius;
+      const px = pos.x - offset + Math.cos(angle) * distance;
+      const py = pos.y - offset + Math.sin(angle) * distance;
+      
+      // Random particle size - larger and more visible
+      const particleSize = Math.random() * 2.5 + 1;
+      
+      // Higher opacity for more visible particles
+      const particleOpacity = (Math.random() * 0.6 + 0.4) * intensity;
+      
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
+        this.ctx.shadowBlur = radius * 6;
+      this.ctx.shadowColor = `rgba(146, 173, 203, ${particleOpacity * 0.5})`;
+      
+      this.ctx.beginPath();
+      this.ctx.fillStyle = `rgba(146, 173, 203, ${particleOpacity})`;
+      this.ctx.arc(px, py, particleSize, 0, Math.PI * 2);
+      this.ctx.fill();
+    }
   }
 }
 
