@@ -298,6 +298,7 @@ header * {
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 100px;
   position: relative;
   z-index: 10;
@@ -307,16 +308,24 @@ header * {
 
 .about-album {
   position: relative;
-  width: 300px;
+  width: 400px;
   height: 400px;
+}
+
+.about-album:hover .album-cd {
+  /* 在原本的 translate 基礎上增加 X 軸位移 */
+  transform: translateX(-50%) translateY(30px);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .album-cd {
   position: absolute;
-  width: 300px;
-  height: 300px;
-  top: 80px;
-  left: -30px;
+  width: 85%;
+  height: 85%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
 }
 
@@ -324,35 +333,37 @@ header * {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  object-fit: cover;
   animation: rotate 10s linear infinite;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
 
 .album-cover {
   position: absolute;
-  width: 300px;
-  height: 400px;
-  top: 0;
-  right: -50px;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 絕對置中 */
   z-index: 2;
 }
 
 .album-cover img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
+  box-shadow: 5px 5px 25px rgba(0,0,0,0.5);
 }
 
 .about-text {
-  max-width: 400px;
-  color: white;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 16px;
-  line-height: 2;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
 }
 
 .about-text p {
-  margin: 0 0 20px 0;
+  margin: 100px 0;
   text-align: center;
 }
 
