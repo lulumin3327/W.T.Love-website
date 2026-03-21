@@ -56,17 +56,23 @@
 body {
   overflow-x: hidden;
   overflow-y: auto; 
-  font-family: 'GlowSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Iosevka Charon", "Chiron GoRound TC", "Quicksand", sans-serif;
+  background: transparent; /* 確保背景是透明的，讓 WebGL 的泡泡能夠顯示出來 */
   color: beige;
   position: relative;
   z-index: 10;
 }
 
 h2 {
+  font-family: "Iosevka Charon", "Chiron GoRound TC", "Quicksand", sans-serif;
+  font-weight: 700; /* 使用粗體 */
   font-size: 48pt;
+  margin-bottom: 1rem;
 }
 
 p{
+  font-family: "Iosevka Charon", "Chiron GoRound TC", "Quicksand", sans-serif;
+  font-weight: 300; /* 使用細體 */
   font-size: 16pt;
 }
 
