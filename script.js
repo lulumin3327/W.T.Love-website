@@ -792,4 +792,77 @@ document.addEventListener('mousemove', (e) => {
   });
 });
 
+// MV Section 出現動畫
+const mvObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // 影片從左側滑入，內容從右側滑入
+      // 播放影片
+      if (player && player.playVideo) {
+        player.playVideo();
+      }
+      
+      entry.target.querySelector('.mv-video-wrapper').style.opacity = '1';
+      entry.target.querySelector('.mv-video-wrapper').style.transform = 'translateX(0)';
+      entry.target.querySelector('.mv-content-container').style.opacity = '1';
+      entry.target.querySelector('.mv-content-container').style.transform = 'translateX(0)';
+      } else {
+      // 離開視窗時暫停影片，節省效能
+      if (player && player.pauseVideo) {
+        player.pauseVideo();
+      }
+    }
+  });
+}, { threshold: 0.2 });
+
+const mvSection = document.querySelector('.mv-section');
+if(mvSection) {
+  // 初始狀態設定
+  const video = mvSection.querySelector('.mv-video-wrapper');
+  const content = mvSection.querySelector('.mv-content-container');
+  
+  video.style.opacity = '0';
+  video.style.transform = 'translateX(-50px)';
+  video.style.transition = 'all 1s ease-out';
+  
+  content.style.opacity = '0';
+  content.style.transform = 'translateX(50px)';
+  content.style.transition = 'all 1s ease-out 0.2s';
+  
+  mvObserver.observe(mvSection);
+}
+
+// 載入 YouTube IFrame Player API 程式碼
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '100%',
+    width: '100%',
+    videoId: 'yt-link',
+    playerVars: {
+      'autoplay': 1,       // 自動播放
+      'controls': 0,       // 隱藏控制列
+      'loop': 1,           // 循環播放 (需搭配 playlist)
+      'playlist': 'yt-link', // 循環播放
+      'modestbranding': 1, // 減少 YouTube Logo
+      'rel': 0,            // 不顯示相關影片
+      'showinfo': 0,
+      'mute': 1            // 靜音播放 (自動播放的必要條件)
+    },
+    events: {
+      'onReady': onPlayerReady
+    }
+  });
+}
+
+function onPlayerReady(event) {
+  event.target.playVideo();
+  // 確保是靜音狀態，增加自動播放成功率
+  event.target.mute();
+}
 
