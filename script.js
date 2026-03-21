@@ -1,4 +1,10 @@
 // TouchTexture class
+
+const overlay = document.getElementById('enter-overlay');
+overlay.addEventListener('click', () => {
+    overlay.style.display = 'none'; // 隱藏進入畫面
+    togglePlay(); // 開始播放音樂
+});
 class TouchTexture {
   constructor() {
     this.size = 64;
@@ -645,6 +651,27 @@ const currentTimeDisplay = document.getElementById('currentTime');
 const progressBar = document.getElementById('progressBar');
 
 let isPlaying = false;
+
+// 自動播放音樂
+function autoPlayMusic() {
+    // 嘗試播放
+    music.play().then(() => {
+        console.log("自動播放成功");
+        if (playIcon) playIcon.src = 'assets/stop.svg';
+        isPlaying = true;
+        // 成功播放後，移除監聽器，避免每次點擊都觸發播放邏輯
+        window.removeEventListener('click', autoPlayMusic);
+    }).catch(error => {
+        // 如果失敗（通常是瀏覽器擋掉），就靜靜等待下一次點擊
+        console.log("等待使用者互動以播放音樂...");
+    });
+}
+
+// 監聽全域點擊事件
+window.addEventListener('click', autoPlayMusic);
+
+// 針對手機端增加觸摸監聽
+window.addEventListener('touchstart', autoPlayMusic);
 
 // 切換播放/停止
 function togglePlay() {
