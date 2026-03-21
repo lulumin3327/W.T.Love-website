@@ -4,7 +4,7 @@ class TouchTexture {
     this.size = 64;
     this.width = this.height = this.size;
     this.maxAge = 64;
-    this.radius = 0.25 * this.size; // Much larger touch radius for more obvious effect
+    this.radius = 0.06 * this.size; // Much larger touch radius for more obvious effect
     this.speed = 1 / this.maxAge;
     this.trail = [];
     this.last = null;
@@ -108,14 +108,14 @@ class GradientBackground {
       uResolution: {
         value: new THREE.Vector2(window.innerWidth, window.innerHeight)
       },
-      uColor1: { value: new THREE.Vector3(0.573, 0.678, 0.796) }, // 92ADCB - Blue
+      uColor1: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 92ADCB - Blue
       uColor2: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
-      uColor3: { value: new THREE.Vector3(0.573, 0.678, 0.796) }, // 92ADCB - Blue
+      uColor3: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 92ADCB - Blue
       uColor4: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
-      uColor5: { value: new THREE.Vector3(0.573, 0.678, 0.796) }, // 92ADCB - Blue
+      uColor5: { value: new THREE.Vector3(0.098, 0.267, 0.667) }, // 92ADCB - Blue
       uColor6: { value: new THREE.Vector3(0.0, 0.0, 0.0) },       // 000000 - Black
       uSpeed: { value: 0.3 },
-      uIntensity: { value: 0.5 },
+      uIntensity: { value: 0.6 },
       uTouchTexture: { value: null },
       uGrainIntensity: { value: 0.0 },
       uZoom: { value: 1.0 }, // Zoom/scale control - lower = less zoomed (more visible)
@@ -466,11 +466,11 @@ class App {
 
     this.scene.background = new THREE.Color(0x000000);
     uniforms.uDarkNavy.value.set(0.0, 0.0, 0.0);
-    uniforms.uGradientSize.value = 0.5;
-    uniforms.uGradientCount.value = 8.0;
-    uniforms.uSpeed.value = 0.6;
-    uniforms.uColor1Weight.value = 0.8;
-    uniforms.uColor2Weight.value = 1.0;
+    uniforms.uGradientSize.value = 0.6;
+    uniforms.uGradientCount.value = 6.0;
+    uniforms.uSpeed.value = 0.4;
+    uniforms.uColor1Weight.value = 0.6;
+    uniforms.uColor2Weight.value = 0.8;
   }
 
   init() {
