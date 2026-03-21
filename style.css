@@ -196,12 +196,40 @@ header, section, footer {
   pointer-events: none;
 }
 
+/* 心形全域容器 */
+.fixed-heart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* 重要：讓點擊穿透心形，不影響網頁操作 */
+  z-index: 9999; /* 確保在所有圖層之上 */
+}
+
+.fixed-heart {
+  position: absolute;
+  width: 80px; /* 根據需求調整大小 */
+  height: auto;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+  animation: heartFloat 6s ease-in-out infinite; /* 加入微弱的浮動動畫 */
+}
+
 /* 根據 Figma 座標定位愛心 */
-.h1 { top: 89px; left: 1017px; width: 162px; }
-.h2 { top: 266px; left: 1143px; width: 94px; }
-.h3 { top: 598px; left: 241px; width: 94px; }
-.h4 { top: 105px; left: 67px; width: 94px; }
-.h5 { top: 669px; left: 52px; width: 162px; }
+.heart-1 { top: 50px; left: 53px; width: 94px; animation-delay: 0s; }
+.heart-2 { top: 797px; left: 77px; width: 94px; animation-delay: 1s; }
+.heart-3 { top: 50px; left: 1003px; width: 162px; animation-delay: 2s; }
+.heart-4 { top: 861px; left: 1201px; width: 94px; animation-delay: 1.5s; }
+
+@keyframes heartFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
 
 #webGLApp {
   z-index: 1; /* 泡泡在最底層 */
@@ -426,4 +454,93 @@ header * {
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* VI Section 容器 */
+.vi-section {
+  min-height: 120vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 100px 20px;
+  overflow: hidden;
+  gap: 80px;
+}
+
+/* 標題標籤 (標準字、標準色) */
+.title-badge {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 156px;
+  padding: 10px 40px;
+  margin-bottom: 30px;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.vi-container {
+  width: 100%;
+  max-width: 1040px;
+  z-index: 5;
+}
+
+/* 標準字內容配置 */
+.logotype-content {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50px;
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-text-left { width: 30%; height: auto; }
+.logo-text-right { width: 55%; height: auto; }
+
+/* 標準色卡片配置 */
+.palette-card {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 40px;
+  padding: 50px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.color-circle {
+  width: 124px;
+  height: 124px;
+  background-color: #AFC8E8;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.color-info p {
+  color: #fff;
+  font-family: 'Iosevka Charon', monospace;
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.color-gradient-bar {
+  flex-grow: 1;
+  height: 124px;
+  background: linear-gradient(90deg, #AFC8E8 0%, rgba(175, 200, 232, 0.2) 100%);
+  border-radius: 10px;
+}
+
+/* 手機版適應 (RWD) */
+@media (max-width: 768px) {
+  .logotype-content, .palette-card {
+    flex-direction: column;
+    padding: 30px;
+    gap: 20px;
+  }
+  .logo-text-left, .logo-text-right { width: 80%; }
+  .color-gradient-bar { width: 100%; height: 40px; }
 }

@@ -754,4 +754,42 @@ document.querySelectorAll('.about-album').forEach(album => {
     cdObserver.observe(album);
 });
 
+// VI Section 出現動畫
+const viObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.vi-container').forEach((el, index) => {
+        setTimeout(() => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, index * 300);
+      });
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.vi-section').forEach(section => {
+  // 初始化樣式
+  section.querySelectorAll('.vi-container').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'all 0.8s ease-out';
+  });
+  viObserver.observe(section);
+});
+
+// 讓固定位置的心形隨滑鼠移動產生微小的視差感
+document.addEventListener('mousemove', (e) => {
+  const hearts = document.querySelectorAll('.fixed-heart');
+  const x = (window.innerWidth - e.pageX) / 50;
+  const y = (window.innerHeight - e.pageY) / 50;
+
+  hearts.forEach((heart, index) => {
+    // 每個心形移動速度稍微不同
+    const speed = (index + 1) * 0.5;
+    heart.style.marginLeft = `${x * speed}px`;
+    heart.style.marginTop = `${y * speed}px`;
+  });
+});
+
 
