@@ -28,12 +28,30 @@
     </nav>
   </header>
 
-  <section id="home" class="hero">
+<section id="home" class="hero">
+  <div class="hero-container">
+    <div class="wt-love-wrapper">
+      <img src="assets/logotype.svg" class="logotype-svg" alt="W.T.Love">
+    </div>
+
+    <img src="assets/heart.svg" class="heart h1" alt="heart">
+    <img src="assets/heart.svg" class="heart h2" alt="heart">
+    <img src="assets/heart.svg" class="heart h3" alt="heart">
+    <img src="assets/heart.svg" class="heart h4" alt="heart">
+    <img src="assets/heart.svg" class="heart h5" alt="heart">
+
     <div class="hero-content">
-      <p>Discover the world of creativity and innovation.</p>
       <a href="#projects" class="btn">Explore Projects</a>
     </div>
-  </section>
+  </div>
+
+  <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+    <filter id="liquid-texture">
+      <feTurbulence type="fractalNoise" baseFrequency="0.999" numOctaves="3" seed="6736" />
+      <feDisplacementMap in="SourceGraphic" scale="15" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+</section>
 
   <section id="About" class="about">
     <h2>About This Song</h2>
