@@ -62,19 +62,21 @@ header, section, footer {
 .footer a:hover {
   opacity: 0.7;
 }
+
 .custom-cursor {
-  position: fixed;
-  width: 40px;
-  height: 40px;
-  border: 2px solid white;
+  width: 20px;
+  height: 20px;
+  background-color: white;
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 1000;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, border-width 0.2s ease;
-  background: transparent;
-  will-change: transform;
+  position: fixed; /* 必須是 fixed */
+  top: 0;
+  left: 0;
+  pointer-events: none; /* 必須加上這行，否則滑鼠會擋住點擊事件 */
+  z-index: 9999;
+  transform: translate(-50%, -50%); /* 讓圓心對準指尖 */
+  transition: transform 0.1s ease-out;
 }
+
 .custom-cursor::before {
   content: "";
   position: absolute;
@@ -149,24 +151,28 @@ header, section, footer {
 .audio-player {
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(15, 15, 15, 0.7);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   backdrop-filter: blur(10px);
-  padding: 8px 24px;
+  padding: 50px 40px;
   border-radius: 50px;
   gap: 15px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 450px; /* 根據參考圖適度調整寬度 */
+  width: 480px;
   pointer-events: auto;
   margin: 0 auto;
 }
 
 .audio-player img {
-  width: 18px; /* 增加一點大小 */
-  height: 18px;
+  width: 20px; /* 回歸正常大小，不要用 200% */
+  height: 20px;
   cursor: pointer;
   display: block;
-  opacity: 0.8;
-  transition: opacity 0.3s, transform 0.2s;
+  /* 強制將黑色的 SVG 轉為白色 */
+  filter: brightness(0) invert(1); 
+  opacity: 1; /* 確保不是透明的 */
+  position: relative;
+  z-index: 10;
 }
 
 .audio-player img:hover {
@@ -177,15 +183,27 @@ header, section, footer {
 .player-ctrl {
   background: none;
   border: none;
-  padding: 0;
+  padding: 5px;
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
+  transition: transform 0.2s ease; /* 加入縮放動畫 */
+}
+
+.player-ctrl:hover {
+  transform: scale(1.1); /* 滑鼠移上去稍微變大 */
+}
+
+.player-ctrl:active {
+  transform: scale(0.9); /* 點擊時縮小，增加回饋感 */
 }
 
 .player-ctrl img {
-  width: 14px;
-  height: 14px;
+  width: 16px; /* 根據你的畫面，16px 或 18px 通常最合適 */
+  height: 16px;
+  display: block;
+  filter: brightness(0) invert(1); /* 保持白色 */
 }
 
 #currentTime {
@@ -219,12 +237,14 @@ header, section, footer {
 .progress-bar::after {
   content: '';
   position: absolute;
-  right: -4px;
-  top: -3px;
+  right: -5px; /* 居中調整 */
+  top: 50%;
+  transform: translateY(-50%); /* 垂直居中 */
   width: 10px;
   height: 10px;
   background: white;
   border-radius: 50%;
+  box-shadow: 0 0 5px rgba(255,255,255,0.5);
 }
 
 .volume-ctrl, .menu-ctrl {

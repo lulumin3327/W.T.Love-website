@@ -592,16 +592,25 @@ if (document.readyState === "loading") {
 }
 
 // Custom cursor
-const cursor = document.getElementById("customCursor");
-let mouseX = 0;
-let mouseY = 0;
-let cursorX = 0;
-let cursorY = 0;
+const cursor = document.getElementById('customCursor');
 
-document.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
+if (cursor) {
+  window.addEventListener('mousemove', (e) => {
+    // 使用 clientX/Y 獲取相對於視窗的座標
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  window.addEventListener('mousedown', () => {
+    cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+  });
+
+  window.addEventListener('mouseup', () => {
+    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+  });
+} else {
+  console.error("找不到 customCursor 元素！");
+}
 
 let isCursorAnimating = false;
 function animateCursor() {
@@ -673,14 +682,27 @@ let isPlaying = false;
 
 // 切換播放/停止
 function togglePlay() {
+  console.log("按鈕被點擊了！目前播放狀態:", isPlaying); // Debug 用
+  
   if (isPlaying) {
     music.pause();
     playIcon.src = 'assets/play.svg';
   } else {
-    music.play();
-    playIcon.src = 'assets/stop.svg';
+    // 瀏覽器通常要求先有使用者互動才能播放
+    music.play().then(() => {
+        console.log("音樂開始播放");
+        playIcon.src = 'assets/stop.svg';
+    }).catch(error => {
+        console.error("播放失敗:", error);
+    });
   }
   isPlaying = !isPlaying;
+}
+
+if (playBtn) {
+    playBtn.addEventListener('click', togglePlay);
+} else {
+    console.error("找不到 id 為 playBtn 的元素！");
 }
 
 // 格式化時間 (00:00)
@@ -691,15 +713,11 @@ function formatTime(seconds) {
 }
 
 // 更新進度與時間
-music.addEventListener('timeupdate', () => {
-  const { currentTime, duration } = music;
-  if (duration) {
-    // 更新時間文字
-    currentTimeDisplay.textContent = formatTime(currentTime);
-    // 更新進度條長度
-    const progressPercent = (currentTime / duration) * 100;
-    progressBar.style.width = `${progressPercent}%`;
-  }
+music.addEventListener('ended', () => {
+  isPlaying = false;
+  playIcon.src = 'assets/play.svg';
+  progressBar.style.width = '0%';
+  currentTimeDisplay.textContent = '00:00';
 });
 
 // 點擊按鈕觸發
@@ -707,9 +725,11 @@ playBtn.addEventListener('click', togglePlay);
 
 // (選填) 點擊進度條跳轉時間
 const progressContainer = document.querySelector('.progress-container');
+
 progressContainer.addEventListener('click', (e) => {
   const width = progressContainer.clientWidth;
   const clickX = e.offsetX;
   const duration = music.duration;
   music.currentTime = (clickX / width) * duration;
 });
+
