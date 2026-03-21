@@ -732,5 +732,26 @@ music.addEventListener('loadedmetadata', () => {
   currentTimeDisplay.textContent = `00:00 / ${formatTime(music.duration)}`;
 });
 
+// 建立觀察器
+const cdObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const album = entry.target; // 這是 .about-album 元素
+        
+        if (entry.isIntersecting) {
+            // 當進入畫面（reveal）時，加入 active 類別觸發滑出動畫
+            album.classList.add('active');
+        } else {
+            // 當滑走（離開視窗）時，移除 active 類別讓它收回去
+            album.classList.remove('active');
+        }
+    });
+}, {
+    threshold: 0.3 // 當元素有 30% 出現時觸發，你可以根據需求調整這個數值
+});
+
+// 開始觀察所有 .about-album 元素
+document.querySelectorAll('.about-album').forEach(album => {
+    cdObserver.observe(album);
+});
 
 

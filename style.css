@@ -228,7 +228,7 @@ header, section, footer {
 }
 
 .audio-player img {
-  width: 20px; /* 回歸正常大小，不要用 200% */
+  width: 20px;
   height: 20px;
   cursor: pointer;
   display: block;
@@ -369,10 +369,9 @@ header * {
   height: 400px;
 }
 
-.about-album:hover .album-cd {
-  /* 在原本的 translate 基礎上增加 X 軸位移 */
-  transform: translateX(-50%) translateY(30px);
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+.about-album.active .album-cd {
+  transform: translateX(-50%) translateY(30px); 
+  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s; /* 滑出的動畫效果 */
 }
 
 .album-cd {
@@ -381,8 +380,8 @@ header * {
   height: 85%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translate(-50%, -50%); /* 初始位置在正中間 */
+  transition: transform 1.2s ease-in-out; /* 這裡決定收回去的速度 */
   z-index: 1;
 }
 
