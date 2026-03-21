@@ -294,185 +294,69 @@ header * {
 /* About Section */
 .about {
   min-height: 100vh;
-  padding: 100px 10%;
   display: flex;
   align-items: center;
-  position: relative;
-  background-color: rgb(22, 39, 122)
-}
-
-.about-container {
-  display: flex;
-  width: 100%;
-  gap: 50px;
-  z-index: 2; /* 確保在背景上方 */
-}
-
-/* 左側標題部分 */
-.about-header {
-  flex: 0 0 200px; /* 固定寬度，不隨縮放變形 */
-}
-
-.about-header .line {
-  width: 40px;
-  height: 1px;
-  background: white;
-  margin-bottom: 20px;
-}
-
-.about-header h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: 3rem;
-  text-transform: uppercase;
-  font-weight: 800;
-  margin: 0;
-}
-
-/* 右側內容文字部分 */
-.about-content {
-  flex: 1;
-  max-width: 600px;
-}
-
-.text-group {
-  margin-bottom: 2rem;
-}
-
-.text-group p {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.2rem;
-}
-
-.about-hearts {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.about-heart {
-  position: absolute;
-  opacity: 0.75;
-  filter: blur(1px);
-}
-
-.heart-1 { width: 236px; top: 0; right: 50px; }
-.heart-2 { width: 185px; top: 50px; right: -20px; }
-.heart-3 { width: 185px; top: 80px; left: 0; }
-.heart-4 { width: 185px; top: 150px; left: 40px; }
-.heart-5 { width: 168px; top: 200px; right: 100px; }
-.heart-6 { width: 168px; top: 250px; left: 20px; }
-.heart-7 { width: 168px; top: 300px; left: 150px; }
-.heart-8 { width: 236px; top: 400px; left: 35px; }
-.heart-9 { width: 236px; top: 450px; right: 50px; }
-.heart-10 { width: 236px; top: 0; left: 115px; }
-
-.album-visual-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%); /* 讓整個區塊在父層置中 */
-  width: 100%;
-  max-width: 600px; /* 限制最大寬度防止過大 */
-  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  gap: 100px;
+  position: relative;
+  z-index: 10;
+  padding: 50px;
+  background-color: blue;
 }
 
-.cover-wrapper {
+.about-album {
   position: relative;
-  width: 100%;
+  width: 300px;
   height: 400px;
 }
 
-.cover-wrapper:hover .cd {
-  transform: translateX(40px); /* 滑鼠移入時 CD 向右滑出更多 */
-}
-
-.cd {
+.album-cd {
   position: absolute;
-  width: 320px; /* 比封面略小一點點 */
-  height: 320px;
-  right: -60px; /* 讓 CD 向右邊露出一截 */
-  top: 15px;    /* 垂直置中微調 (350-320)/2 */
+  width: 300px;
+  height: 300px;
+  top: 80px;
+  left: -30px;
   z-index: 1;
-  transition: transform 0.5s ease;
 }
 
-.cd img {
+.album-cd img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: cover;
-  animation: rotate 20s linear infinite;
-  box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+  animation: rotate 10s linear infinite;
 }
 
-.cover {
+.album-cover {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
+  width: 300px;
+  height: 400px;
   top: 0;
+  right: -50px;
   z-index: 2;
-  box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
 }
 
-.cover img {
+.album-cover img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 確保圖片填滿格子且不變形 */
+  object-fit: contain;
   display: block;
 }
 
-/* CD 旋轉動畫 */
+.about-text {
+  max-width: 400px;
+  color: white;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 16px;
+  line-height: 2;
+}
+
+.about-text p {
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-.title-section {
-  position: absolute;
-  left: 107px;
-  top: 79px;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 22px 110px 22px 70px;
-  border-radius: 156px;
-}
-
-.title-section h2 {
-  font-family: 'Encode Sans Expanded', 'Noto Sans JP', sans-serif;
-  font-size: 48px;
-  font-weight: 400;
-  color: white;
-  letter-spacing: -2.88px;
-  line-height: 1;
-  margin: 0;
-}
-
-.about-text {
-  position: absolute;
-  left: 451px;
-  top: 977px;
-  text-align: center;
-  color: white;
-  font-family: 'Encode Sans Expanded', 'Noto Sans JP', sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.4px;
-}
-
-.text-group {
-  margin-bottom: 241px;
-}
-
-.text-group:last-child {
-  margin-bottom: 0;
-}
-
-.text-group p {
-  margin: 0;
 }
