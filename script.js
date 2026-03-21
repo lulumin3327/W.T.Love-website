@@ -686,12 +686,23 @@ function formatTime(seconds) {
   return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 }
 
-// 更新進度與時間
-music.addEventListener('ended', () => {
-  isPlaying = false;
-  playIcon.src = 'assets/play.svg';
-  progressBar.style.width = '0%';
-  currentTimeDisplay.textContent = '00:00';
+// 更新進度與時間顯示
+music.addEventListener('timeupdate', () => {
+  const { currentTime, duration } = music;
+  
+  if (duration) {
+    // 1. 更新時間文字：顯示為 "00:00 / 03:45"
+    currentTimeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+    
+    // 2. 更新進度條長度 (這會帶動 CSS 中的圓點)
+    const progressPercent = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressPercent}%`;
+  }
+});
+
+// 當音樂加載完成時，先顯示總時長 (避免顯示 00:00 / 00:00)
+music.addEventListener('loadedmetadata', () => {
+  currentTimeDisplay.textContent = `00:00 / ${formatTime(music.duration)}`;
 });
 
 

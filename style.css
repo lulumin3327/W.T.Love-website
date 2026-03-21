@@ -159,7 +159,7 @@ header, section, footer {
   border-radius: 50px;
   gap: 15px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 500px;
+  width: 600px;
   pointer-events: auto;
   margin: 0 auto;
 }
@@ -209,10 +209,12 @@ header, section, footer {
 
 #currentTime {
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   color: white;
-  min-width: 45px;
-  font-variant-numeric: tabular-nums; /* 防止數字跳動 */
+  min-width: 85px;   /* 增加寬度以容納 "00:00 / 00:00" */
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  margin: 0 10px;
 }
 
 /* 進度條容器 */
@@ -238,14 +240,15 @@ header, section, footer {
 .progress-bar::after {
   content: '';
   position: absolute;
-  right: -5px; /* 居中調整 */
+  right: -5px;      /* 圓點半徑，讓圓心剛好在進度條末端 */
   top: 50%;
   transform: translateY(-50%); /* 垂直居中 */
   width: 10px;
   height: 10px;
   background: white;
   border-radius: 50%;
-  box-shadow: 0 0 5px rgba(255,255,255,0.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: scale 0.2s ease;
 }
 
 .volume-ctrl, .menu-ctrl {
