@@ -4,7 +4,7 @@ class TouchTexture {
     this.size = 64;
     this.width = this.height = this.size;
     this.maxAge = 64;
-    this.radius = 0.15 * this.size; // Touch radius for interaction effect
+    this.radius = 0.2 * this.size; // Larger touch radius for visible interaction
     this.speed = 1 / this.maxAge;
     this.trail = [];
     this.last = null;
@@ -82,27 +82,34 @@ class TouchTexture {
     const radius = this.radius;
     let offset = this.size * 10;
     
-    // Draw multiple particles for powder/dust effect
-    const particleCount = 40; // Number of particles
-    const spreadRadius = radius * 4; // How far particles spread
+    // First, draw a main circle to show the interaction position clearly
+    this.ctx.shadowOffsetX = offset;
+    this.ctx.shadowOffsetY = offset;
+    this.ctx.shadowBlur = radius * 2;
+    this.ctx.shadowColor = `rgba(146, 173, 203, ${intensity * 0.2})`;
+    
+    this.ctx.beginPath();
+    this.ctx.fillStyle = `rgba(146, 173, 203, ${intensity * 0.3})`;
+    this.ctx.arc(pos.x - offset, pos.y - offset, radius, 0, Math.PI * 2);
+    this.ctx.fill();
+    
+    // Then add particles for dust effect
+    const particleCount = 25;
+    const spreadRadius = radius * 3;
     
     for (let i = 0; i < particleCount; i++) {
-      // Random position around center
       const angle = Math.random() * Math.PI * 2;
       const distance = Math.random() * spreadRadius;
       const px = pos.x - offset + Math.cos(angle) * distance;
       const py = pos.y - offset + Math.sin(angle) * distance;
       
-      // Random particle size - larger and more visible
-      const particleSize = Math.random() * 2.5 + 1;
-      
-      // Higher opacity for more visible particles
-      const particleOpacity = (Math.random() * 0.6 + 0.4) * intensity;
+      const particleSize = Math.random() * 2 + 0.5;
+      const particleOpacity = (Math.random() * 0.3 + 0.2) * intensity;
       
       this.ctx.shadowOffsetX = 0;
       this.ctx.shadowOffsetY = 0;
-        this.ctx.shadowBlur = radius * 6;
-      this.ctx.shadowColor = `rgba(146, 173, 203, ${particleOpacity * 0.5})`;
+      this.ctx.shadowBlur = particleSize * 4;
+      this.ctx.shadowColor = `rgba(146, 173, 203, ${particleOpacity * 0.3})`;
       
       this.ctx.beginPath();
       this.ctx.fillStyle = `rgba(146, 173, 203, ${particleOpacity})`;
