@@ -766,3 +766,69 @@ header * {
     width: 100%;
   }
 }
+
+/* Credits Section 樣式 */
+.credits {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  overflow: hidden;
+  margin-top: -1px; 
+}
+
+.credits-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px; /* 標題與卡片的間距 */
+  width: 100%;
+  max-width: 800px;
+}
+
+/* 標題膠囊 */
+.credits-title-badge {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 156px;
+  padding: 22px 70px;
+}
+
+/* 內容卡片 */
+.credits-content-card {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  border-radius: 40px;
+  padding: 50px 70px;
+  width: 100%;
+  max-width: 500px; /* 根據文字長度調整 */
+}
+
+.credits-list p {
+  color: white;
+  font-size: 16px;
+  line-height: 1.8; /* 增加行高讓閱讀更舒適 */
+  text-align: center;
+  letter-spacing: -0.32px;
+  margin-bottom: 8px;
+}
+
+/* 手機版調整 */
+@media (max-width: 768px) {
+  .credits-title-badge {
+    padding: 15px 40px;
+  }
+  .credits-title-badge h3 {
+    font-size: 32px;
+  }
+  .credits-content-card {
+    padding: 30px;
+    width: 90%;
+  }
+}

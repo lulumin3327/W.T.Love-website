@@ -877,3 +877,24 @@ function onPlayerReady(event) {
   event.target.mute();
 }
 
+// Credits 區塊的觀察器
+const creditsSection = document.querySelector('.credits');
+if(creditsSection) {
+  const container = creditsSection.querySelector('.credits-container');
+  
+  // 初始狀態
+  container.style.opacity = '0';
+  container.style.transform = 'translateY(50px)';
+  container.style.transition = 'all 1.2s ease-out';
+
+  const creditsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        container.style.opacity = '1';
+        container.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.3 });
+
+  creditsObserver.observe(creditsSection);
+}
