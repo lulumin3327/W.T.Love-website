@@ -118,7 +118,9 @@ header, section, footer {
 
 .logotype-svg {
   width: 100%;
-  filter: url(#liquid-texture) drop-shadow(0 0 10px rgba(255,255,255,0.3));
+  /* 移除原本的 filter: url(#liquid-texture) */
+  /* 只保留陰影，讓它在背景上更清晰，若不需要陰影也可以整行刪除 */
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); 
 }
 
 /* 愛心通用樣式 */
