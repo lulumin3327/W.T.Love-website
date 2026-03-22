@@ -32,7 +32,7 @@ p {
   font-size: 16pt;
 }
 
-header, section, footer {
+section, footer {
   position: relative;
   z-index: 10;
 }
@@ -319,7 +319,6 @@ a, button, .player-ctrl, #volume-slider {
 .volume-ctrl-container:hover .volume-slider-wrapper {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto; /* 顯示時恢復點擊 */
   transform: translateX(-50%) translateY(0);
 }
 
@@ -334,6 +333,11 @@ a, button, .player-ctrl, #volume-slider {
   width: 24px; 
   height: 24px;
   position: relative;
+}
+
+.volume-toggle:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
 }
 
 .audio-icon {
@@ -352,31 +356,30 @@ a, button, .player-ctrl, #volume-slider {
 
 .volume-slider-wrapper {
   position: absolute;
-  bottom: 110%; /* 確保在 Icon 上方 */
+  bottom: 110%;
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  width: 30px;
+  width: 40px; /* 稍微加寬，更好操作 */
   height: 120px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
+  background: rgba(20, 20, 20, 0.8); /* 深一點的背景更清楚 */
+  backdrop-filter: blur(10px);
   border-radius: 20px;
-  display: flex; /* 改為 flex 而不是 none */
+  display: flex;
   justify-content: center;
   align-items: center;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none; /* 隱藏時不可點擊 */
   transition: all 0.3s ease;
-  z-index: 100;
+  pointer-events: auto !important; /* 確保滑桿本身可點擊 */
 }
 
 #volume-slider {
   appearance: slider-vertical;
   -webkit-appearance: slider-vertical;
-  width: 8px;
+  width: 12px;
   height: 90px;
-  background: rgba(255, 255, 255, 0.2);
-  cursor: pointer !important;
+  cursor: none !important; /* 保持隱藏原生游標以使用您的 custom-cursor */
+  pointer-events: auto !important;
 }
 
 /* Chrome, Brave, Safari 的控制點 (Thumb) */
@@ -528,11 +531,11 @@ header {
   top: 75%;
   left: 0;
   width: 100%;
+  z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
-  pointer-events: none;
+  pointer-events: auto; 
 }
 
 header * {

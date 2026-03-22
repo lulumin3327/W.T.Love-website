@@ -1,14 +1,19 @@
 const overlay = document.getElementById('enter-overlay');
+const bgMusic = document.getElementById('bgMusic'); // 先抓好 audio 元素
+
 overlay.addEventListener('click', () => {
     overlay.classList.add('fade-out');
     setTimeout(() => {
         overlay.style.display = 'none';
     }, 800);
-    if (music.paused) {
-        music.play().then(() => {
-            isPlaying = true;
-            playIcon.src = 'assets/stop.svg';
-        }).catch(err => console.log('播放失敗:', err));
+    
+    // 修正這裡的變數名稱，從 music 改為 bgMusic
+    if (bgMusic && bgMusic.paused) {
+        bgMusic.play().then(() => {
+            // 如果有 playIcon 也要更新
+            const playIcon = document.getElementById('playIcon');
+            if (playIcon) playIcon.src = 'assets/stop.svg';
+        }).catch(err => console.log('自動播放被擋:', err));
     }
 });
 class TouchTexture {
