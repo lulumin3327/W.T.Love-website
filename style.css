@@ -385,6 +385,7 @@ input[type="range"] {
   align-items: center;
   transition: transform 0.3s ease;
   pointer-events: auto;
+  overflow: hidden;
 }
 
 .volume-slider-track {

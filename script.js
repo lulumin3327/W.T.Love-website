@@ -37,7 +37,25 @@ console.log('🎵 初始化音量控制（優先執行）...');
     const updateVolumeUI = (val) => {
         const percent = val * 100;
         if (volumeFill) volumeFill.style.height = percent + '%';
-        if (volumeThumb) volumeThumb.style.bottom = `calc(${percent}% - 6px)`;
+        
+        // thumb 的位置計算：
+        // track 高度 = 80px，thumb 高度 = 12px
+        // thumb 中心應該在 track 範圍內（0-80px）
+        // 所以 thumb 的底部位置應該是：trackBottom + (percent * 80px) - 6px
+        // trackBottom 在 wrapper 中的位置是 (120-80)/2 = 20px
+        if (volumeThumb) {
+            const trackHeight = 80; // volume-slider-track 的高度
+            const thumbHalfHeight = 6; // thumb 高度的一半
+            const trackBottom = 20; // track 底部距離 wrapper 底部的距離
+            
+            // 計算 thumb 中心應該在的位置（從 wrapper 底部算起）
+            const thumbCenter = trackBottom + (percent / 100 * trackHeight);
+            
+            // 限制範圍：最低 = trackBottom，最高 = trackBottom + trackHeight
+            const limitedPos = Math.max(trackBottom, Math.min(trackBottom + trackHeight, thumbCenter));
+            
+            volumeThumb.style.bottom = `${limitedPos - thumbHalfHeight}px`;
+        }
     };
 
     if (bgMusic && volumeSlider && volumeSliderWrapper) {
@@ -118,7 +136,8 @@ console.log('🎵 初始化音量控制（優先執行）...');
     // Volume toggle 和 container hover
     if (volumeToggle && bgMusic && volumeSlider && volumeSliderWrapper) {
         try {
-            volumeToggle.addEventListener('click', (e) => {
+            // 靜音/取消靜音的函數
+            const toggleMute = (e) => {
                 e.stopPropagation();
                 if (bgMusic.volume > 0) {
                     volumeSlider.dataset.oldVol = bgMusic.volume;
@@ -133,7 +152,15 @@ console.log('🎵 初始化音量控制（優先執行）...');
                     updateVolumeUI(oldVol);
                     if (volumeIcon) volumeIcon.style.opacity = "1";
                 }
-            });
+            };
+            
+            // 綁定到 toggle 容器
+            volumeToggle.addEventListener('click', toggleMute);
+            
+            // 也綁定到 icon 本身（確保點擊圖示也能觸發）
+            if (volumeIcon) {
+                volumeIcon.addEventListener('click', toggleMute);
+            }
 
             const volumeCtrlContainer = document.querySelector('.volume-ctrl-container');
             
