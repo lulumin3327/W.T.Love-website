@@ -681,6 +681,107 @@ header * {
   border-radius: 10px;
 }
 
+/* Photography Section Styles */
+.photography {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  items-center: center;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.visuals-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 背景大圖容器 */
+.bg-img-wrapper {
+  position: absolute;
+  left: -477px;
+  top: 0.31px;
+  width: 2232.89px;
+  height: 1256px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 處理 Figma 的 -rotate-90 */
+  transform: rotate(-90deg); 
+}
+
+.bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* 中央主圖卡片 */
+.main-img-anchor {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 79.69px);
+  transform: translate(-50%, -50%);
+  width: 668px;
+  height: 892px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-img-card {
+  width: 668px;
+  height: 892px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 40px;
+}
+
+.rectangle-wrapper {
+  position: absolute;
+  inset: -0.63px 0 -0.38px 0;
+}
+
+.rectangle-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* 標題區塊樣式 */
+.title-section-anchor {
+  position: absolute;
+  left: 116px;
+  top: 1050.31px;
+}
+
+.title-section-card {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 110px 22px 70px;
+  border-radius: 156px;
+  overflow: hidden;
+}
+
+.section-title {
+  font-family: "Iosevka Charon", "Chiron GoRound TC", sans-serif; /* 使用你專案已有的字體 */
+  font-size: 48px;
+  color: white;
+  letter-spacing: -2.88px;
+  line-height: 0.9;
+  font-weight: 400;
+  margin: 0;
+}
+
 .mv-section {
   min-height: 100vh;
   width: 100%;

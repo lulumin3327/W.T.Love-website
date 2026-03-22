@@ -855,6 +855,21 @@ const viObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 
+// 在 script.js 的合適位置加入
+const photoSection = document.querySelector('#photography');
+if (photoSection) {
+    // 監測滾動到此區段時的動畫觸發
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    observer.observe(photoSection);
+}
+
 document.querySelectorAll('.vi-section').forEach(section => {
   // 初始化樣式
   section.querySelectorAll('.vi-container').forEach(el => {
