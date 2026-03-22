@@ -1059,24 +1059,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        volumeToggle.addEventListener('mouseenter', () => {
-            volumeSliderWrapper.style.opacity = '1';
-            volumeSliderWrapper.style.visibility = 'visible';
-        });
+        // 改用整個 volume-ctrl-container 來控制顯示/隱藏
+        const volumeCtrlContainer = document.querySelector('.volume-ctrl-container');
+        
+        if (volumeCtrlContainer) {
+            volumeCtrlContainer.addEventListener('mouseenter', () => {
+                volumeSliderWrapper.style.transform = 'translateX(-50%) scaleY(1)';
+            });
 
-        volumeToggle.addEventListener('mouseleave', () => {
-            volumeSliderWrapper.style.opacity = '0';
-            volumeSliderWrapper.style.visibility = 'hidden';
-        });
-
-        volumeSliderWrapper.addEventListener('mouseenter', () => {
-            volumeSliderWrapper.style.opacity = '1';
-            volumeSliderWrapper.style.visibility = 'visible';
-        });
-
-        volumeSliderWrapper.addEventListener('mouseleave', () => {
-            volumeSliderWrapper.style.opacity = '0';
-            volumeSliderWrapper.style.visibility = 'hidden';
-        });
+            volumeCtrlContainer.addEventListener('mouseleave', () => {
+                volumeSliderWrapper.style.transform = 'translateX(-50%) scaleY(0)';
+            });
+        }
     }
 });

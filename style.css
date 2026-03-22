@@ -211,11 +211,14 @@ a, button, .player-ctrl, #volume-slider {
   50% { transform: translateY(-20px) rotate(2deg); }
 }
 
-.audio-player, .volume-slider-wrapper, #volume-slider {
+.audio-player {
   position: relative;
-  z-index: 10000; /* 高於 WebGL 和游標 */
+  z-index: 10000;
   pointer-events: auto !important;
 }
+
+/* volume-slider-wrapper 和 #volume-slider 的樣式在後面單獨定義 */
+
 
 input[type="range"] {
   cursor: none !important; 
@@ -331,9 +334,7 @@ input[type="range"] {
 }
 
 .volume-ctrl-container:hover .volume-slider-wrapper {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) scaleY(1);
 }
 
 .volume-ctrl-container:hover {
@@ -372,7 +373,8 @@ input[type="range"] {
   position: absolute;
   bottom: 110%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: bottom center;
   width: 40px;
   height: 120px;
   background: rgba(20, 20, 20, 0.8);
@@ -381,9 +383,8 @@ input[type="range"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
+  pointer-events: auto;
 }
 
 .volume-slider-track {
@@ -404,7 +405,6 @@ input[type="range"] {
   background: white;
   border-radius: 2px;
   transition: height 0.1s ease;
-  pointer-events: none;
 }
 
 .volume-slider-thumb {
@@ -421,14 +421,17 @@ input[type="range"] {
 }
 
 #volume-slider {
+  -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr;
   position: absolute;
   width: 100%;
   height: 100%;
   opacity: 0;
-  cursor: none;
+  cursor: none !important;
   z-index: 10;
   top: 0;
   left: 0;
+  pointer-events: auto;
 }
 
 /* Menu 觸發按鈕樣式 */
