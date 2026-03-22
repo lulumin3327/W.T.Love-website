@@ -4,7 +4,12 @@ overlay.addEventListener('click', () => {
     setTimeout(() => {
         overlay.style.display = 'none';
     }, 800);
-    togglePlay();
+    if (music.paused) {
+        music.play().then(() => {
+            isPlaying = true;
+            playIcon.src = 'assets/stop.svg';
+        }).catch(err => console.log('進入播放失敗:', err));
+    }
 });
 class TouchTexture {
   constructor() {
@@ -662,15 +667,16 @@ let isPlaying = false;
 
 // 切換播放/停止
 function togglePlay() {
-  if (isPlaying) {
+  if (!music.paused) {
     music.pause();
     playIcon.src = 'assets/play.svg';
+    isPlaying = false;
   } else {
     music.play().then(() => {
       playIcon.src = 'assets/stop.svg';
+      isPlaying = true;
     }).catch(err => console.log('播放失敗:', err));
   }
-  isPlaying = !isPlaying;
 }
 
 if (playBtn) {
