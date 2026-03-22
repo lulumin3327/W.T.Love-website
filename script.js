@@ -37,7 +37,25 @@ console.log('🎵 初始化音量控制（優先執行）...');
     const updateVolumeUI = (val) => {
         const percent = val * 100;
         if (volumeFill) volumeFill.style.height = percent + '%';
-        if (volumeThumb) volumeThumb.style.bottom = `calc(${percent}% - 6px)`;
+        
+        // thumb 的位置計算：
+        // track 高度 = 80px，thumb 高度 = 12px
+        // thumb 中心應該在 track 範圍內（0-80px）
+        // 所以 thumb 的底部位置應該是：trackBottom + (percent * 80px) - 6px
+        // trackBottom 在 wrapper 中的位置是 (120-80)/2 = 20px
+        if (volumeThumb) {
+            const trackHeight = 80; // volume-slider-track 的高度
+            const thumbHalfHeight = 6; // thumb 高度的一半
+            const trackBottom = 20; // track 底部距離 wrapper 底部的距離
+            
+            // 計算 thumb 中心應該在的位置（從 wrapper 底部算起）
+            const thumbCenter = trackBottom + (percent / 100 * trackHeight);
+            
+            // 限制範圍：最低 = trackBottom，最高 = trackBottom + trackHeight
+            const limitedPos = Math.max(trackBottom, Math.min(trackBottom + trackHeight, thumbCenter));
+            
+            volumeThumb.style.bottom = `${limitedPos - thumbHalfHeight}px`;
+        }
     };
 
     if (bgMusic && volumeSlider && volumeSliderWrapper) {
@@ -118,7 +136,8 @@ console.log('🎵 初始化音量控制（優先執行）...');
     // Volume toggle 和 container hover
     if (volumeToggle && bgMusic && volumeSlider && volumeSliderWrapper) {
         try {
-            volumeToggle.addEventListener('click', (e) => {
+            // 靜音/取消靜音的函數
+            const toggleMute = (e) => {
                 e.stopPropagation();
                 if (bgMusic.volume > 0) {
                     volumeSlider.dataset.oldVol = bgMusic.volume;
@@ -133,7 +152,15 @@ console.log('🎵 初始化音量控制（優先執行）...');
                     updateVolumeUI(oldVol);
                     if (volumeIcon) volumeIcon.style.opacity = "1";
                 }
-            });
+            };
+            
+            // 綁定到 toggle 容器
+            volumeToggle.addEventListener('click', toggleMute);
+            
+            // 也綁定到 icon 本身（確保點擊圖示也能觸發）
+            if (volumeIcon) {
+                volumeIcon.addEventListener('click', toggleMute);
+            }
 
             const volumeCtrlContainer = document.querySelector('.volume-ctrl-container');
             
@@ -969,21 +996,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // 點擊選項轉動唱片
   menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
+      const angle = item.getAttribute('data-angle');
       const targetId = item.getAttribute('data-target');
-      const itemIndex = parseInt(item.style.getPropertyValue('--i'));
-      
-      // 計算旋轉角度
-      // 每個 item 之間相隔 45 度 (360/8 = 45)
-      // 我們需要讓選中的項目旋轉到底部（270度位置，即三角形指向的地方）
-      // 
-      // 首頁(--i:0)在頂部(0度)，需要旋轉270度才能到底部
-      // 關於此曲(--i:1)在-45度，需要旋轉315度才能到底部
-      // 公式: targetRotation = 270 - (itemIndex * 45)
-      
-      const targetRotation = 270 - (itemIndex * 45);
-      
-      // 執行轉動動畫
-      discWheel.style.transform = `rotate(${targetRotation}deg)`;
+
+      // 執行轉動動畫 (相對於初始位置)
+      // 我們加上 90 度是因為三角形在底部 (270度或-90度位置)
+      // 這裡的角度邏輯：點擊的項目會轉到三角形指向的位置
+      discWheel.style.transform = `rotate(${-(item.style.getPropertyValue('--i') * 45)}deg)`;
 
       // 延遲跳轉，等旋轉快結束時再滾動頁面
       setTimeout(() => {
