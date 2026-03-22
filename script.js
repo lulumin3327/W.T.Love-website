@@ -14,6 +14,152 @@ overlay.addEventListener('click', () => {
         }).catch(() => {});
     }
 });
+
+// ========================================
+// 音量控制初始化 - 放在最前面確保一定執行
+// ========================================
+console.log('🎵 初始化音量控制（優先執行）...');
+
+(function initVolumeControl() {
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeIcon = document.getElementById('volume-icon'); 
+    const volumeToggle = document.getElementById('volume-toggle');
+    const volumeSliderWrapper = document.querySelector('.volume-slider-wrapper');
+    const volumeFill = document.getElementById('volumeFill');
+    const volumeThumb = document.getElementById('volumeThumb');
+
+    console.log('檢查音量控制元素:', {
+        bgMusic: !!bgMusic,
+        volumeSlider: !!volumeSlider,
+        volumeSliderWrapper: !!volumeSliderWrapper
+    });
+
+    const updateVolumeUI = (val) => {
+        const percent = val * 100;
+        if (volumeFill) volumeFill.style.height = percent + '%';
+        if (volumeThumb) volumeThumb.style.bottom = `calc(${percent}% - 6px)`;
+    };
+
+    if (bgMusic && volumeSlider && volumeSliderWrapper) {
+        console.log('✅ 音量控制元素齊全，開始綁定事件...');
+        
+        try {
+            bgMusic.volume = volumeSlider.value;
+            updateVolumeUI(volumeSlider.value);
+
+            // 標準的 input 事件
+            volumeSlider.addEventListener('input', (e) => {
+                console.log('📊 Input event, value:', e.target.value);
+                const val = e.target.value;
+                bgMusic.volume = val;
+                updateVolumeUI(val);
+                if (volumeIcon) volumeIcon.style.opacity = (val == 0) ? "0.3" : "1";
+            });
+
+            // 手動拖曳處理
+            let isDragging = false;
+            
+            const handleSliderInteraction = (e) => {
+                if (!volumeSliderWrapper) return;
+                
+                const rect = volumeSliderWrapper.getBoundingClientRect();
+                const y = e.clientY - rect.top;
+                const height = rect.height;
+                
+                let value = 1 - (y / height);
+                value = Math.max(0, Math.min(1, value));
+                
+                console.log('🖱️ 手動拖曳, value:', value);
+                
+                volumeSlider.value = value;
+                bgMusic.volume = value;
+                updateVolumeUI(value);
+                if (volumeIcon) volumeIcon.style.opacity = (value == 0) ? "0.3" : "1";
+            };
+            
+            volumeSliderWrapper.addEventListener('mousedown', (e) => {
+                console.log('👇 Mousedown');
+                isDragging = true;
+                handleSliderInteraction(e);
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    handleSliderInteraction(e);
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    console.log('👆 Mouseup');
+                    isDragging = false;
+                }
+            });
+            
+            volumeSliderWrapper.addEventListener('click', (e) => {
+                console.log('🖱️ Click');
+                handleSliderInteraction(e);
+            });
+            
+            console.log('✅ 手動拖曳已綁定！');
+        } catch (e) {
+            console.error('❌ 音量控制綁定失敗:', e);
+        }
+    } else {
+        console.error('❌ 音量控制元素缺失:', { 
+            bgMusic: !!bgMusic, 
+            volumeSlider: !!volumeSlider, 
+            volumeSliderWrapper: !!volumeSliderWrapper 
+        });
+    }
+
+    // Volume toggle 和 container hover
+    if (volumeToggle && bgMusic && volumeSlider && volumeSliderWrapper) {
+        try {
+            volumeToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (bgMusic.volume > 0) {
+                    volumeSlider.dataset.oldVol = bgMusic.volume;
+                    bgMusic.volume = 0;
+                    volumeSlider.value = 0;
+                    updateVolumeUI(0);
+                    if (volumeIcon) volumeIcon.style.opacity = "0.3";
+                } else {
+                    const oldVol = volumeSlider.dataset.oldVol || 0.5;
+                    bgMusic.volume = oldVol;
+                    volumeSlider.value = oldVol;
+                    updateVolumeUI(oldVol);
+                    if (volumeIcon) volumeIcon.style.opacity = "1";
+                }
+            });
+
+            const volumeCtrlContainer = document.querySelector('.volume-ctrl-container');
+            
+            if (volumeCtrlContainer) {
+                volumeCtrlContainer.addEventListener('mouseenter', () => {
+                    volumeSliderWrapper.style.transform = 'translateX(-50%) scaleY(1)';
+                });
+
+                volumeCtrlContainer.addEventListener('mouseleave', () => {
+                    volumeSliderWrapper.style.transform = 'translateX(-50%) scaleY(0)';
+                });
+            }
+            
+            console.log('✅ Volume toggle 已綁定');
+        } catch (e) {
+            console.error('❌ Volume toggle 綁定失敗:', e);
+        }
+    }
+    
+    console.log('✅ 音量控制初始化完成！');
+})();
+
+// ========================================
+// 以下是原本的程式碼
+// ========================================
+
 class TouchTexture {
   constructor() {
     this.size = 64;
@@ -738,11 +884,17 @@ document.querySelectorAll('.fixed-heart').forEach(heart => {
   heart.dataset.baseTransform = heart.style.transform;
 });
 
-// 嘗試自動播放
+// 嘗試自動播放（加上錯誤處理以防中斷執行）
+try {
     bgMusic.play().then(() => {
-    isPlaying = true;
-    playIcon.src = 'assets/stop.svg';
-}).catch(() => {});
+        const playIcon = document.getElementById('playIcon');
+        if (playIcon) playIcon.src = 'assets/stop.svg';
+    }).catch(() => {
+        // 自動播放失敗，靜默處理
+    });
+} catch (e) {
+    console.log('自動播放失敗:', e);
+}
 
 const progressContainer = document.querySelector('.progress-container');
 if (progressContainer) {
@@ -1014,62 +1166,3 @@ if (footer) {
 
   footerObserver.observe(footer);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const volumeSlider = document.getElementById('volume-slider');
-    const volumeIcon = document.getElementById('volume-icon'); 
-    const volumeToggle = document.getElementById('volume-toggle');
-    const volumeSliderWrapper = document.querySelector('.volume-slider-wrapper');
-    const volumeFill = document.getElementById('volumeFill');
-    const volumeThumb = document.getElementById('volumeThumb');
-
-    const updateVolumeUI = (val) => {
-        const percent = val * 100;
-        if (volumeFill) volumeFill.style.height = percent + '%';
-        if (volumeThumb) volumeThumb.style.bottom = `calc(${percent}% - 6px)`;
-    };
-
-    if (bgMusic && volumeSlider) {
-        bgMusic.volume = volumeSlider.value;
-        updateVolumeUI(volumeSlider.value);
-
-        volumeSlider.addEventListener('input', (e) => {
-            const val = e.target.value;
-            bgMusic.volume = val;
-            updateVolumeUI(val);
-            if (volumeIcon) volumeIcon.style.opacity = (val == 0) ? "0.3" : "1";
-        });
-    }
-
-    if (volumeToggle && bgMusic && volumeSlider && volumeSliderWrapper) {
-        volumeToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (bgMusic.volume > 0) {
-                volumeSlider.dataset.oldVol = bgMusic.volume;
-                bgMusic.volume = 0;
-                volumeSlider.value = 0;
-                updateVolumeUI(0);
-                if (volumeIcon) volumeIcon.style.opacity = "0.3";
-            } else {
-                const oldVol = volumeSlider.dataset.oldVol || 0.5;
-                bgMusic.volume = oldVol;
-                volumeSlider.value = oldVol;
-                updateVolumeUI(oldVol);
-                if (volumeIcon) volumeIcon.style.opacity = "1";
-            }
-        });
-
-        // 改用整個 volume-ctrl-container 來控制顯示/隱藏
-        const volumeCtrlContainer = document.querySelector('.volume-ctrl-container');
-        
-        if (volumeCtrlContainer) {
-            volumeCtrlContainer.addEventListener('mouseenter', () => {
-                volumeSliderWrapper.style.transform = 'translateX(-50%) scaleY(1)';
-            });
-
-            volumeCtrlContainer.addEventListener('mouseleave', () => {
-                volumeSliderWrapper.style.transform = 'translateX(-50%) scaleY(0)';
-            });
-        }
-    }
-});
