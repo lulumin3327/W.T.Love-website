@@ -216,8 +216,9 @@ a, button, .player-ctrl, #volume-slider {
   backdrop-filter: blur(10px);
   padding: 20px 30px;
   border-radius: 50px;
-  gap: 15px;
+  gap: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 320px;
   width: 600px;
   pointer-events: auto;
   margin: 0 auto;
