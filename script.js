@@ -647,14 +647,14 @@ if (cursor) {
   }
 
   document.addEventListener('mouseover', (e) => {
-    if (e.target.closest('a, button, .color-btn, .export-btn, .copy-btn, .toggle-adjuster-btn, .player-ctrl, .logo, .nav ul li')) {
+    if (e.target.closest('a, button, .color-btn, .export-btn, .copy-btn, .toggle-adjuster-btn, .player-ctrl, .logo, .nav ul li, .volume-toggle, .menu-trigger, .volume-icon-wrapper, .close-menu')) {
       cursor.style.width = "30px";
       cursor.style.height = "30px";
     }
   });
 
   document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('a, button, .color-btn, .export-btn, .copy-btn, .toggle-adjuster-btn, .player-ctrl, .logo, .nav ul li')) {
+    if (e.target.closest('a, button, .color-btn, .export-btn, .copy-btn, .toggle-adjuster-btn, .player-ctrl, .logo, .nav ul li, .volume-toggle, .menu-trigger, .volume-icon-wrapper, .close-menu')) {
       cursor.style.width = "20px";
       cursor.style.height = "20px";
     }
@@ -1024,17 +1024,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeSlider = document.getElementById('volume-slider');
     const volumeIcon = document.getElementById('volume-icon'); 
     const volumeToggle = document.getElementById('volume-toggle');
+    const volumeSliderWrapper = document.querySelector('.volume-slider-wrapper');
     const playBtn = document.getElementById('playBtn');
     const playIcon = document.getElementById('playIcon');
 
-    // 1. 修復播放邏輯 (處理變數名稱不一致問題)
     const overlay = document.getElementById('enter-overlay');
     if (overlay) {
         overlay.addEventListener('click', () => {
             overlay.classList.add('fade-out');
             setTimeout(() => { overlay.style.display = 'none'; }, 800);
-            
-            // 確保這裡使用的是 audio 而不是 music
             if (audio && audio.paused) {
                 audio.play().then(() => {
                     if (playIcon) playIcon.src = 'assets/stop.svg';
@@ -1043,7 +1041,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. 音量滑桿邏輯
     if (audio && volumeSlider) {
         audio.volume = volumeSlider.value;
 
@@ -1054,8 +1051,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. 點擊靜音邏輯
-    if (volumeToggle && audio && volumeSlider) {
+    if (volumeToggle && audio && volumeSlider && volumeSliderWrapper) {
         volumeToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             if (audio.volume > 0) {
@@ -1069,6 +1065,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 volumeSlider.value = oldVol;
                 if (volumeIcon) volumeIcon.style.opacity = "1";
             }
+        });
+
+        volumeToggle.addEventListener('mouseenter', () => {
+            volumeSliderWrapper.style.opacity = '1';
+            volumeSliderWrapper.style.visibility = 'visible';
+        });
+
+        volumeToggle.addEventListener('mouseleave', () => {
+            volumeSliderWrapper.style.opacity = '0';
+            volumeSliderWrapper.style.visibility = 'hidden';
+        });
+
+        volumeSliderWrapper.addEventListener('mouseenter', () => {
+            volumeSliderWrapper.style.opacity = '1';
+            volumeSliderWrapper.style.visibility = 'visible';
+        });
+
+        volumeSliderWrapper.addEventListener('mouseleave', () => {
+            volumeSliderWrapper.style.opacity = '0';
+            volumeSliderWrapper.style.visibility = 'hidden';
         });
     }
 });
