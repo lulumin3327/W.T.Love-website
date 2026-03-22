@@ -341,53 +341,66 @@ a, button, .player-ctrl, #volume-slider {
 }
 
 .volume-slider-wrapper {
-  position: absolute; 
-  bottom: 100%;    
-  left: 50%;     
-  transform: translateX(-50%) translateY(10px); 
-  opacity: 0;  
-  visibility: hidden;
-  transition: all 0.3s ease; 
-  padding: 12px 8px;
+  position: absolute;
+  bottom: 110%; /* 彈出位置在 icon 上方 */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  padding: 15px 10px;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
   z-index: 100;
-  display: block !important;
 }
 
 .volume-ctrl-container:hover .volume-slider-wrapper {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(-5px);
+  transform: translateX(-50%) translateY(0);
 }
 
 #volume-slider {
-  appearance: slider-vertical;
-  -webkit-appearance: slider-vertical;
-  width: 8px;
-  height: 80px;
-  cursor: none !important;
-}
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 4px;              
+  height: 80px;             
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  border-radius: 2px;
+  writing-mode: bt-lr;    
+}  
 
+/* Chrome, Brave, Safari 的控制點 (Thumb) */
 #volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #ffffff;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-left: 0; 
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;      /* 控制點顏色 */
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border: none;
+}
+/* Firefox 的控制點 (Thumb) */
+#volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-#volume-slider::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    background: #ffffff;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
+/* Firefox 移除預設虛線 */
+#volume-slider::-moz-focus-outer {
+  border: 0;
 }
 
 .menu-ctrl {
