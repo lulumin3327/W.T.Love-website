@@ -754,6 +754,129 @@ header * {
   margin-bottom: 8px;
 }
 
+/* Contact Section Styles */
+.contact-section {
+  padding: 80px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.contact-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.contact-content-card {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 40px;
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Logo 樣式 */
+.contact-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.footer-logo-img {
+  width: 238px;
+  height: auto;
+  filter: brightness(0) invert(1); /* 讓 Logo 變白色 */
+}
+
+/* 聯絡清單樣式 */
+.contact-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.contact-item .label {
+  font-size: 16px;
+  opacity: 0.7;
+  margin-bottom: 8px;
+  letter-spacing: -0.32px;
+}
+
+.contact-item .value {
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.contact-item .underline {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* 導覽連結樣式 */
+.contact-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.nav-title {
+  font-size: 20px;
+  letter-spacing: -0.4px;
+  font-weight: 400;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-links a {
+  font-size: 16px;
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* 響應式設計 (Mobile) */
+@media (max-width: 900px) {
+  .contact-content-card {
+    flex-direction: column;
+    padding: 40px 30px;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .contact-logo, .contact-list, .contact-nav {
+    width: 100%;
+    align-items: center;
+  }
+  
+  .nav-links {
+    align-items: center;
+  }
+}
+
 .main-footer {
   position: relative;
   width: 100%;
