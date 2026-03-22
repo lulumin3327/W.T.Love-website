@@ -1020,29 +1020,52 @@ if (footer) {
 document.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('bgMusic');
     const volumeSlider = document.getElementById('volume-slider');
-    const volumeIcon = document.getElementById('volume-icon');
+    const volumeIcon = document.getElementById('volume-icon'); 
     const volumeToggle = document.getElementById('volume-toggle');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
 
+    // 1. 修復播放邏輯 (處理變數名稱不一致問題)
+    const overlay = document.getElementById('enter-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            overlay.classList.add('fade-out');
+            setTimeout(() => { overlay.style.display = 'none'; }, 800);
+            
+            // 確保這裡使用的是 audio 而不是 music
+            if (audio && audio.paused) {
+                audio.play().then(() => {
+                    if (playIcon) playIcon.src = 'assets/stop.svg';
+                }).catch(err => console.log('播放失敗:', err));
+            }
+        });
+    }
+
+    // 2. 音量滑桿邏輯
     if (audio && volumeSlider) {
         audio.volume = volumeSlider.value;
 
         volumeSlider.addEventListener('input', (e) => {
-            audio.volume = e.target.value;
-            volumeIcon.style.opacity = e.target.value == 0 ? "0.3" : "1";
+            const val = e.target.value;
+            audio.volume = val;
+            if (volumeIcon) volumeIcon.style.opacity = (val == 0) ? "0.3" : "1";
         });
+    }
 
+    // 3. 點擊靜音邏輯
+    if (volumeToggle && audio && volumeSlider) {
         volumeToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             if (audio.volume > 0) {
                 volumeSlider.dataset.oldVol = audio.volume;
                 audio.volume = 0;
                 volumeSlider.value = 0;
-                volumeIcon.style.opacity = "0.3";
+                if (volumeIcon) volumeIcon.style.opacity = "0.3";
             } else {
-                const old = volumeSlider.dataset.oldVol || 0.5;
-                audio.volume = old;
-                volumeSlider.value = old;
-                volumeIcon.style.opacity = "1";
+                const oldVol = volumeSlider.dataset.oldVol || 0.5;
+                audio.volume = oldVol;
+                volumeSlider.value = oldVol;
+                if (volumeIcon) volumeIcon.style.opacity = "1";
             }
         });
     }
