@@ -39,10 +39,33 @@
   </div>
 </div>
     
-    <div class="menu-ctrl">
-      <img src="assets/menu.svg" alt="menu">
+<div class="menu-trigger" id="menuTrigger">
+  <img class="" src="assets/menu.svg" id="" alt=""> 
+</div>
+
+<nav class="disc-menu" id="discMenu">
+  <div class="disc-container">
+    <button class="close-menu" id="closeMenu">✕</button>
+    
+    <div class="disc-wheel" id="discWheel">
+      <img src="assets/polygon-disc.svg" alt="polygon">
+      
+      <div class="menu-item" style="--i:0;" data-target="#home" data-angle="0">首頁</div>
+      <div class="menu-item" style="--i:1;" data-target="#about" data-angle="-45">關於此曲</div>
+      <div class="menu-item" style="--i:2;" data-target="#visual" data-angle="-90">視覺識別</div>
+      <div class="menu-item" style="--i:3;" data-target="#photography" data-angle="-135">形象攝影</div>
+      <div class="menu-item" style="--i:4;" data-target="#mv" data-angle="-180">MV</div>
+      <div class="menu-item" style="--i:5;" data-target="#credits" data-angle="-225">製作名單</div>
+      <div class="menu-item" style="--i:6;" data-target="#community" data-angle="-270">社群連結</div>
+
+      <div class="disc-center-heart">
+        <img src="assets/heart-disc.svg" alt="heart">
+      </div>
     </div>
   </div>
+</nav>
+  </div>
+  
 </header>
 
 <audio id="bgMusic" loop>
@@ -92,7 +115,7 @@
   </div>
 </section>
 
-<section id="VI" class="vi-section">
+<section id="visual" class="vi-section">
   <div class="vi-background"></div>
   
   <div class="vi-container logotype-container">

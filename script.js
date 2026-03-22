@@ -796,6 +796,46 @@ const cdObserver = new IntersectionObserver((entries) => {
     threshold: 0.3 // 當元素有 30% 出現時觸發，你可以根據需求調整這個數值
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const menuTrigger = document.getElementById('menuTrigger');
+  const discMenu = document.getElementById('discMenu');
+  const closeMenu = document.getElementById('closeMenu');
+  const discWheel = document.getElementById('discWheel');
+  const menuItems = document.querySelectorAll('.menu-item');
+
+  // 打開選單
+  menuTrigger.addEventListener('click', () => {
+    discMenu.classList.add('active');
+  });
+
+  // 關閉選單
+  closeMenu.addEventListener('click', () => {
+    discMenu.classList.remove('active');
+  });
+
+  // 點擊選項轉動唱片
+  menuItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      const angle = item.getAttribute('data-angle');
+      const targetId = item.getAttribute('data-target');
+
+      // 執行轉動動畫 (相對於初始位置)
+      // 我們加上 90 度是因為三角形在底部 (270度或-90度位置)
+      // 這裡的角度邏輯：點擊的項目會轉到三角形指向的位置
+      discWheel.style.transform = `rotate(${-(item.style.getPropertyValue('--i') * 45)}deg)`;
+
+      // 延遲跳轉，等旋轉快結束時再滾動頁面
+      setTimeout(() => {
+        discMenu.classList.remove('active');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 800);
+    });
+  });
+});
+
 // 開始觀察所有 .about-album 元素
 document.querySelectorAll('.about-album').forEach(album => {
     cdObserver.observe(album);
