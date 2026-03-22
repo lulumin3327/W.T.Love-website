@@ -1,5 +1,5 @@
 const overlay = document.getElementById('enter-overlay');
-const bgMusic = document.getElementById('bgMusic'); // 先抓好 audio 元素
+const bgMusic = document.getElementById('bgMusic');
 
 overlay.addEventListener('click', () => {
     overlay.classList.add('fade-out');
@@ -7,13 +7,11 @@ overlay.addEventListener('click', () => {
         overlay.style.display = 'none';
     }, 800);
     
-    // 修正這裡的變數名稱，從 music 改為 bgMusic
     if (bgMusic && bgMusic.paused) {
         bgMusic.play().then(() => {
-            // 如果有 playIcon 也要更新
             const playIcon = document.getElementById('playIcon');
             if (playIcon) playIcon.src = 'assets/stop.svg';
-        }).catch(err => console.log('自動播放被擋:', err));
+        }).catch(() => {});
     }
 });
 class TouchTexture {
@@ -662,7 +660,6 @@ if (cursor) {
 }
 
 // 音樂播放器邏輯
-const music = document.getElementById('bgMusic');
 const playBtn = document.getElementById('playBtn');
 const playIcon = document.getElementById('playIcon');
 const currentTimeDisplay = document.getElementById('currentTime');
@@ -670,17 +667,16 @@ const progressBar = document.getElementById('progressBar');
 
 let isPlaying = false;
 
-// 切換播放/停止
 function togglePlay() {
-  if (!music.paused) {
-    music.pause();
+  if (!bgMusic.paused) {
+    bgMusic.pause();
     playIcon.src = 'assets/play.svg';
     isPlaying = false;
   } else {
-    music.play().then(() => {
+    bgMusic.play().then(() => {
       playIcon.src = 'assets/stop.svg';
       isPlaying = true;
-    }).catch(err => console.log('播放失敗:', err));
+    }).catch(() => {});
   }
 }
 
@@ -697,7 +693,7 @@ function initAudioAnalyzer() {
   analyser = audioContext.createAnalyser();
   analyser.fftSize = 256;
   
-  const source = audioContext.createMediaElementSource(music);
+  const source = audioContext.createMediaElementSource(bgMusic);
   source.connect(analyser);
   analyser.connect(audioContext.destination);
   
@@ -705,11 +701,11 @@ function initAudioAnalyzer() {
 }
 
 function updateHeartPulse() {
-  if (!analyser || music.paused) {
+  if (!analyser || bgMusic.paused) {
     document.querySelectorAll('.fixed-heart').forEach(heart => {
       heart.style.transform = heart.dataset.baseTransform || '';
     });
-    if (!music.paused) requestAnimationFrame(updateHeartPulse);
+    if (!bgMusic.paused) requestAnimationFrame(updateHeartPulse);
     return;
   }
   
@@ -725,13 +721,13 @@ function updateHeartPulse() {
   requestAnimationFrame(updateHeartPulse);
 }
 
-music.addEventListener('play', () => {
+bgMusic.addEventListener('play', () => {
   if (!audioContext) initAudioAnalyzer();
   if (audioContext.state === 'suspended') audioContext.resume();
   updateHeartPulse();
 });
 
-music.addEventListener('pause', () => {
+bgMusic.addEventListener('pause', () => {
   document.querySelectorAll('.fixed-heart').forEach(heart => {
     heart.style.transform = heart.dataset.baseTransform || '';
   });
@@ -743,7 +739,7 @@ document.querySelectorAll('.fixed-heart').forEach(heart => {
 });
 
 // 嘗試自動播放
-music.play().then(() => {
+    bgMusic.play().then(() => {
     isPlaying = true;
     playIcon.src = 'assets/stop.svg';
 }).catch(() => {});
@@ -753,8 +749,8 @@ if (progressContainer) {
   progressContainer.addEventListener('click', (e) => {
     const width = progressContainer.clientWidth;
     const clickX = e.offsetX;
-    const duration = music.duration;
-    music.currentTime = (clickX / width) * duration;
+    const duration = bgMusic.duration;
+    bgMusic.currentTime = (clickX / width) * duration;
   });
 }
 
@@ -766,8 +762,8 @@ function formatTime(seconds) {
 }
 
 // 更新進度與時間顯示
-music.addEventListener('timeupdate', () => {
-  const { currentTime, duration } = music;
+bgMusic.addEventListener('timeupdate', () => {
+  const { currentTime, duration } = bgMusic;
   
   if (duration) {
     // 1. 更新時間文字：顯示為 "00:00 / 03:45"
@@ -780,8 +776,8 @@ music.addEventListener('timeupdate', () => {
 });
 
 // 當音樂加載完成時，先顯示總時長 (避免顯示 00:00 / 00:00)
-music.addEventListener('loadedmetadata', () => {
-  currentTimeDisplay.textContent = `00:00 / ${formatTime(music.duration)}`;
+bgMusic.addEventListener('loadedmetadata', () => {
+  currentTimeDisplay.textContent = `00:00 / ${formatTime(bgMusic.duration)}`;
 });
 
 // 建立觀察器
@@ -1020,28 +1016,12 @@ if (footer) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const audio = document.getElementById('bgMusic');
     const volumeSlider = document.getElementById('volume-slider');
     const volumeIcon = document.getElementById('volume-icon'); 
     const volumeToggle = document.getElementById('volume-toggle');
     const volumeSliderWrapper = document.querySelector('.volume-slider-wrapper');
     const volumeFill = document.getElementById('volumeFill');
     const volumeThumb = document.getElementById('volumeThumb');
-    const playBtn = document.getElementById('playBtn');
-    const playIcon = document.getElementById('playIcon');
-
-    const overlay = document.getElementById('enter-overlay');
-    if (overlay) {
-        overlay.addEventListener('click', () => {
-            overlay.classList.add('fade-out');
-            setTimeout(() => { overlay.style.display = 'none'; }, 800);
-            if (audio && audio.paused) {
-                audio.play().then(() => {
-                    if (playIcon) playIcon.src = 'assets/stop.svg';
-                }).catch(err => console.log('播放失敗:', err));
-            }
-        });
-    }
 
     const updateVolumeUI = (val) => {
         const percent = val * 100;
@@ -1049,30 +1029,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (volumeThumb) volumeThumb.style.bottom = `calc(${percent}% - 6px)`;
     };
 
-    if (audio && volumeSlider) {
-        audio.volume = volumeSlider.value;
+    if (bgMusic && volumeSlider) {
+        bgMusic.volume = volumeSlider.value;
         updateVolumeUI(volumeSlider.value);
 
         volumeSlider.addEventListener('input', (e) => {
             const val = e.target.value;
-            audio.volume = val;
+            bgMusic.volume = val;
             updateVolumeUI(val);
             if (volumeIcon) volumeIcon.style.opacity = (val == 0) ? "0.3" : "1";
         });
     }
 
-    if (volumeToggle && audio && volumeSlider && volumeSliderWrapper) {
+    if (volumeToggle && bgMusic && volumeSlider && volumeSliderWrapper) {
         volumeToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (audio.volume > 0) {
-                volumeSlider.dataset.oldVol = audio.volume;
-                audio.volume = 0;
+            if (bgMusic.volume > 0) {
+                volumeSlider.dataset.oldVol = bgMusic.volume;
+                bgMusic.volume = 0;
                 volumeSlider.value = 0;
                 updateVolumeUI(0);
                 if (volumeIcon) volumeIcon.style.opacity = "0.3";
             } else {
                 const oldVol = volumeSlider.dataset.oldVol || 0.5;
-                audio.volume = oldVol;
+                bgMusic.volume = oldVol;
                 volumeSlider.value = oldVol;
                 updateVolumeUI(oldVol);
                 if (volumeIcon) volumeIcon.style.opacity = "1";
