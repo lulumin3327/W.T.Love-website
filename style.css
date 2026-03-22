@@ -211,6 +211,17 @@ a, button, .player-ctrl, #volume-slider {
   50% { transform: translateY(-20px) rotate(2deg); }
 }
 
+.audio-player, .volume-slider-wrapper, #volume-slider {
+  position: relative;
+  z-index: 10000; /* 高於 WebGL 和游標 */
+  pointer-events: auto !important;
+}
+
+input[type="range"] {
+  cursor: none !important; 
+  touch-action: none; /* 防止行動端衝突 */
+}
+
 .audio-player {
   display: flex;
   align-items: center;
@@ -414,6 +425,8 @@ a, button, .player-ctrl, #volume-slider {
   opacity: 0;
   cursor: none;
   z-index: 10;
+  cursor: auto;
+  touch-action: none;
 }
 
 /* Menu 觸發按鈕樣式 */
