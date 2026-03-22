@@ -12,8 +12,8 @@
 </head>
 
 <body>
-  <div id="enter-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; justify-content:center; align-items:center; cursor:pointer;">
-    <p style="color:beige; font-family:'Iosevka Charon'; letter-spacing:5px;"><span>CLICK TO ENTER</span></p>
+  <div id="enter-overlay">
+    <p><span>CLICK TO ENTER</span></p>
   </div>
 
   <div class="custom-cursor" id="customCursor"></div>
@@ -30,9 +30,14 @@
       <div class="progress-bar" id="progressBar"></div>
     </div>
     
-    <div class="volume-ctrl">
-      <img src="assets/audio.svg" alt="volume">
+<div class="volume-ctrl-container">
+    <div class="volume-slider-wrapper">
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
     </div>
+    <div class="volume-icon-wrapper" id="volume-toggle">
+        <img src="assets/audio.svg" alt="Volume" class="audio-icon" id="volume-icon">
+    </div>
+</div>
     
     <div class="menu-ctrl">
       <img src="assets/menu.svg" alt="menu">
@@ -91,7 +96,7 @@
   <div class="vi-background"></div>
   
   <div class="vi-container logotype-container">
-    <div class="title-badge"><h3>標準字</h3></div>
+    <div class="title-badge"><h2>標準字</h2></div>
     <div class="logotype-content">
       <img src="assets/text1.svg" alt="左標準字" class="logo-text-left">
       <img src="assets/text2.svg" alt="右標準字" class="logo-text-right">
@@ -99,7 +104,7 @@
   </div>
 
   <div class="vi-container color-palette-container">
-    <div class="title-badge"><h3>標準色</h3></div>
+    <div class="title-badge"><h2>標準色</h2></div>
     <div class="palette-card">
       <div class="color-circle"></div>
       <div class="color-info">

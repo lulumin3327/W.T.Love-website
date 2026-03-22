@@ -1,3 +1,7 @@
+html, body {
+  cursor: none !important;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,59 +9,11 @@
   cursor: none !important;
 }
 
-.iosevka-charon-light {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.iosevka-charon-regular {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.iosevka-charon-medium {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.iosevka-charon-bold {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.iosevka-charon-light-italic {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.iosevka-charon-regular-italic {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.iosevka-charon-medium-italic {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 500;
-  font-style: italic;
-}
-
-.iosevka-charon-bold-italic {
-  font-family: "Iosevka Charon", monospace;
-  font-weight: 700;
-  font-style: italic;
-}
-
 body {
   overflow-x: hidden;
-  overflow-y: auto; 
+  overflow-y: auto;
   font-family: "Iosevka Charon", "Chiron GoRound TC", "Quicksand", sans-serif;
-  background: transparent; /* 確保背景是透明的，讓 WebGL 的泡泡能夠顯示出來 */
+  background: transparent;
   color: beige;
   position: relative;
   z-index: 10;
@@ -65,20 +21,24 @@ body {
 
 h2 {
   font-family: "Iosevka Charon", "Chiron GoRound TC", "Quicksand", sans-serif;
-  font-weight: 350; /* 使用粗體 */
+  font-weight: 350;
   font-size: 48pt;
   margin-bottom: 1rem;
 }
 
-p{
+p {
   font-family: "Iosevka Charon", "Chiron GoRound TC", "Quicksand", sans-serif;
-  font-weight: 300; /* 使用細體 */
+  font-weight: 300;
   font-size: 16pt;
 }
 
 header, section, footer {
   position: relative;
   z-index: 10;
+}
+
+a, button, .player-ctrl, #volume-slider {
+  cursor: none !important;
 }
 
 #webGLApp {
@@ -90,13 +50,7 @@ header, section, footer {
   z-index: 1;
 }
 
-.export-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px);
-}
-
-.toggle-adjuster-btn:hover {
+.export-btn:hover, .toggle-adjuster-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
@@ -117,28 +71,29 @@ header, section, footer {
   text-align: center;
   pointer-events: auto;
 }
+
 .footer a {
   color: white;
   text-decoration: none;
   transition: opacity 0.3s ease;
 }
+
 .footer a:hover {
   opacity: 0.7;
 }
 
 .custom-cursor {
-  width: 20px;
+  position: fixed;
+  width: 20px; 
   height: 20px;
-  background-color: white;
+  background-color: beige;
   border-radius: 50%;
-  position: fixed; /* 必須是 fixed */
-  top: 0;
-  left: 0;
-  pointer-events: none; /* 必須加上這行，否則滑鼠會擋住點擊事件 */
-  z-index: 9999;
-  transform: translate(-50%, -50%); /* 讓圓心對準指尖 */
-  transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
-  opacity: 0.7;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  margin: 0; 
+  padding: 0;
+  will-change: transform; 
 }
 
 .custom-cursor::before {
@@ -168,15 +123,16 @@ header, section, footer {
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
 }
 
-/* 文字呼吸燈效果 */
-#enter-overlay p span {
+#enter-overlay p {
   color: beige;
   font-family: 'Iosevka Charon';
   letter-spacing: 5px;
+}
+
+#enter-overlay p span {
   animation: entranceFade 2s infinite alternate;
 }
 
-/* 隱藏時的狀態：淡出並稍微放大 */
 #enter-overlay.fade-out {
   opacity: 0;
   visibility: hidden;
@@ -188,7 +144,6 @@ header, section, footer {
   to { opacity: 1; filter: blur(0px); }
 }
 
-/* Hero 容器 */
 .hero {
   position: relative;
   width: 100vw;
@@ -196,8 +151,9 @@ header, section, footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  background: transparent; /* 確保看得到後面的泡泡 */
+  overflow: visible;
+  background: transparent;
+  z-index: 5;
 }
 
 .hero-container {
@@ -207,7 +163,6 @@ header, section, footer {
   height: 800px;
 }
 
-/* 標準字樣式 */
 .wt-love-wrapper {
   position: absolute;
   top: 50%;
@@ -219,19 +174,9 @@ header, section, footer {
 
 .logotype-svg {
   width: 100%;
-  /* 移除原本的 filter: url(#liquid-texture) */
-  /* 只保留陰影，讓它在背景上更清晰，若不需要陰影也可以整行刪除 */
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); 
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
 
-/* 愛心通用樣式 */
-.heart {
-  position: absolute;
-  filter: url(#liquid-texture) opacity(0.75);
-  pointer-events: none;
-}
-
-/* 心形全域容器 */
 .fixed-heart-overlay {
   position: fixed;
   top: 0;
@@ -251,68 +196,18 @@ header, section, footer {
   display: block;
 }
 
-.heart-1 {
-  width: 200px;
-  top: 10%;
-  right: 5%;
-  animation-delay: 0s;
-}
+.heart-1 { width: 200px; top: 10%; right: 5%; }
+.heart-2 { width: 94px; top: 30%; right: 5%; animation-delay: 1.2s; }
+.heart-3 { width: 100px; top: 30%; left: 3%; animation-delay: 2.5s; }
+.heart-4 { width: 94px; bottom: 25%; right: 8%; animation-delay: 0.8s; }
+.heart-5 { width: 72px; bottom: 37%; left: 3%; animation-delay: 3.1s; }
+.heart-6 { width: 200px; bottom: 15%; left: 2%; animation-delay: 1.8s; }
 
-/* 2. 右上小愛心 (Figma: left 1143, top 266) */
-.heart-2 {
-  width: 94px;
-  top: 30%;
-  right: 5%;
-  animation-delay: 1.2s;
-}
-
-/* 3. 左上中愛心 (Figma: left 67, top 105) */
-.heart-3 {
-  width: 100px;
-  top: 30%;
-  left: 3%;
-  animation-delay: 2.5s;
-}
-
-/* 4. 右下中愛心 (Figma: left 1132, top 564) */
-.heart-4 {
-  width: 94px;
-  bottom: 25%;
-  right: 8%;
-  animation-delay: 0.8s;
-}
-
-/* 5. 左下小愛心 (Figma: left 31, top 501) */
-.heart-5 {
-  width: 72px;
-  bottom: 37%;
-  left: 3%;
-  animation-delay: 3.1s;
-}
-
-/* 6. 左下大愛心 (Figma: left 53, top 605) */
-.heart-6 {
-  width: 200px;
-  bottom: 15%;
-  left: 2%;
-  animation-delay: 1.8s;
-}
-
-/* 修正浮動動畫，讓移動幅度更細膩 */
 @keyframes heartFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(2deg); }
 }
 
-#webGLApp {
-  z-index: 1; /* 泡泡在最底層 */
-}
-
-.hero {
-  z-index: 5; /* 內容在泡泡上面 */
-}
-
-/* 播放器主體 */
 .audio-player {
   display: flex;
   align-items: center;
@@ -333,9 +228,8 @@ header, section, footer {
   height: 20px;
   cursor: pointer;
   display: block;
-  /* 強制將黑色的 SVG 轉為白色 */
-  filter: brightness(0) invert(1); 
-  opacity: 1; /* 確保不是透明的 */
+  filter: brightness(0) invert(1);
+  opacity: 1;
   position: relative;
   z-index: 10;
 }
@@ -353,35 +247,34 @@ header, section, footer {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease; /* 加入縮放動畫 */
+  transition: transform 0.2s ease;
 }
 
 .player-ctrl:hover {
-  transform: scale(1.1); /* 滑鼠移上去稍微變大 */
+  transform: scale(1.1);
 }
 
 .player-ctrl:active {
-  transform: scale(0.9); /* 點擊時縮小，增加回饋感 */
+  transform: scale(0.9);
 }
 
 .player-ctrl img {
-  width: 16px; /* 根據你的畫面，16px 或 18px 通常最合適 */
+  width: 16px;
   height: 16px;
   display: block;
-  filter: brightness(0) invert(1); /* 保持白色 */
+  filter: brightness(0) invert(1);
 }
 
 #currentTime {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   color: white;
-  min-width: 85px;   /* 增加寬度以容納 "00:00 / 00:00" */
+  min-width: 85px;
   text-align: center;
   font-variant-numeric: tabular-nums;
   margin: 0 10px;
 }
 
-/* 進度條容器 */
 .progress-container {
   flex-grow: 1;
   height: 4px;
@@ -391,7 +284,6 @@ header, section, footer {
   cursor: pointer;
 }
 
-/* 實際進度條 */
 .progress-bar {
   width: 0%;
   height: 100%;
@@ -400,13 +292,12 @@ header, section, footer {
   position: relative;
 }
 
-/* 進度條上的小圓點 */
 .progress-bar::after {
   content: '';
   position: absolute;
-  right: -5px;      /* 圓點半徑，讓圓心剛好在進度條末端 */
+  right: -5px;
   top: 50%;
-  transform: translateY(-50%); /* 垂直居中 */
+  transform: translateY(-50%);
   width: 10px;
   height: 10px;
   background: white;
@@ -415,13 +306,104 @@ header, section, footer {
   transition: scale 0.2s ease;
 }
 
-.volume-ctrl, .menu-ctrl {
+.volume-ctrl-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 100%;
+}
+
+.volume-ctrl-container:hover {
+  background: rgba(0, 0, 0, 0.7);
+  padding-right: 20px;
+}
+
+.volume-icon-wrapper {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.audio-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.audio-icon:active {
+  transform: scale(0.9);
+}
+
+.volume-slider-wrapper {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 0; 
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: height 0.3s ease, padding 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    z-index: 10;
+    margin-bottom: 8px;
+}
+
+.volume-ctrl-container:hover .volume-slider-wrapper {
+    height: 100px; /* 彈出的高度 */
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+
+#volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 4px;  
+    height: 80px; 
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    writing-mode: bt-lr; 
+    -webkit-appearance: slider-vertical; 
+    margin: 0 auto;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 0; 
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-ctrl {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.volume-ctrl img, .menu-ctrl img {
+.menu-ctrl img {
   width: 18px;
   cursor: pointer;
   opacity: 0.8;
@@ -434,30 +416,26 @@ header, section, footer {
 
 header {
   position: fixed;
-  /* 調整垂直位置：配合你原本 JS 設定的 top: 75% */
-  top: 75%; 
+  top: 75%;
   left: 0;
-  width: 100%; /* 撐滿全寬，方便內部的內容對齊 */
+  width: 100%;
   display: flex;
-  /* 關鍵修改：使用 justify-content 讓內容在 header 容器內水平居中 */
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   z-index: 100;
-  pointer-events: none; /* 穿透點擊，不干擾背景 */
+  pointer-events: none;
 }
 
 header * {
   pointer-events: auto;
 }
 
-/* About Section */
 .about {
   min-height: 100vh;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 100px;
   position: relative;
   z-index: 10;
@@ -471,8 +449,8 @@ header * {
 }
 
 .about-album.active .album-cd {
-  transform: translateX(-50%) translateY(30px); 
-  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s; /* 滑出的動畫效果 */
+  transform: translateX(-50%) translateY(30px);
+  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
 }
 
 .album-cd {
@@ -481,8 +459,8 @@ header * {
   height: 85%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 初始位置在正中間 */
-  transition: transform 1.2s ease-in-out; /* 這裡決定收回去的速度 */
+  transform: translate(-50%, -50%);
+  transition: transform 1.2s ease-in-out;
   z-index: 1;
 }
 
@@ -501,7 +479,7 @@ header * {
   height: 100%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 絕對置中 */
+  transform: translate(-50%, -50%);
   z-index: 2;
 }
 
@@ -529,7 +507,6 @@ header * {
   to { transform: rotate(360deg); }
 }
 
-/* VI Section 容器 */
 .vi-section {
   min-height: 120vh;
   position: relative;
@@ -542,7 +519,6 @@ header * {
   gap: 80px;
 }
 
-/* 標題標籤 (標準字、標準色) */
 .title-badge {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -559,8 +535,7 @@ header * {
   z-index: 5;
 }
 
-/* 標準字內容配置 */
-.logotype-content {
+.logotype-content, .palette-card {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 50px;
   padding: 60px;
@@ -568,21 +543,11 @@ header * {
   align-items: center;
   justify-content: space-between;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 30px;
 }
 
 .logo-text-left { width: 30%; height: auto; }
 .logo-text-right { width: 55%; height: auto; }
-
-/* 標準色卡片配置 */
-.palette-card {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 40px;
-  padding: 50px;
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
 
 .color-circle {
   width: 124px;
@@ -607,18 +572,6 @@ header * {
   border-radius: 10px;
 }
 
-/* 手機版適應 (RWD) */
-@media (max-width: 768px) {
-  .logotype-content, .palette-card {
-    flex-direction: column;
-    padding: 30px;
-    gap: 20px;
-  }
-  .logo-text-left, .logo-text-right { width: 80%; }
-  .color-gradient-bar { width: 100%; height: 40px; }
-}
-
-/* MV Section 主樣式 */
 .mv-section {
   min-height: 100vh;
   width: 100%;
@@ -630,7 +583,6 @@ header * {
   padding: 0 50px;
 }
 
-/* 背景裝飾 */
 .mv-bg-decoration {
   position: absolute;
   top: 0;
@@ -648,18 +600,16 @@ header * {
   filter: blur(20px);
 }
 
-/* 內容容器 */
 .mv-container {
   position: relative;
   z-index: 5;
   display: flex;
   gap: 30px;
-  align-items: flex-end; /* 對齊底部 */
+  align-items: flex-end;
   max-width: 1200px;
   width: 100%;
 }
 
-/* 左側影片 */
 .mv-video-wrapper {
   flex: 0 0 750px;
   height: 414px;
@@ -674,21 +624,19 @@ header * {
   height: 100%;
   position: relative;
   overflow: hidden;
-  pointer-events: none; /* 使用者無法點擊影片 */
+  pointer-events: none;
 }
 
-/* 讓影片稍微放大以遮蓋可能出現的黑邊 */
 #player {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1.1); 
+  transform: translate(-50%, -50%) scale(1.1);
   width: 100%;
   height: 100%;
   background: url('https://img.youtube.com/vi/pV7m0Gow5QA/maxresdefault.jpg') center/cover no-repeat;
 }
 
-/* 右側文字區域 */
 .mv-content-container {
   display: flex;
   flex-direction: column;
@@ -719,7 +667,7 @@ header * {
   border-radius: 40px;
   padding: 40px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  height: 250px; /* 固定高度以符合設計 */
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -732,10 +680,9 @@ header * {
   font-family: "Chiron GoRound TC", sans-serif;
 }
 
-/* 按鈕樣式 */
 .yt-button {
   display: inline-block;
-  background: rgba(69, 56, 244, 0.8); /* Figma 裡的藍紫色 */
+  background: rgba(69, 56, 244, 0.8);
   color: white;
   padding: 8px 24px;
   border-radius: 40px;
@@ -752,22 +699,6 @@ header * {
   box-shadow: 0 5px 15px rgba(69, 56, 244, 0.3);
 }
 
-/* 響應式調整 */
-@media (max-width: 1100px) {
-  .mv-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .mv-video-wrapper {
-    width: 100%;
-    flex: none;
-  }
-  .mv-content-container {
-    width: 100%;
-  }
-}
-
-/* Credits Section 樣式 */
 .credits {
   position: relative;
   width: 100%;
@@ -778,7 +709,7 @@ header * {
   justify-content: center;
   padding: 80px 20px;
   overflow: hidden;
-  margin-top: -1px; 
+  margin-top: -1px;
 }
 
 .credits-container {
@@ -787,12 +718,11 @@ header * {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px; /* 標題與卡片的間距 */
+  gap: 40px;
   width: 100%;
   max-width: 800px;
 }
 
-/* 標題膠囊 */
 .credits-title-badge {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
@@ -800,40 +730,24 @@ header * {
   padding: 22px 70px;
 }
 
-/* 內容卡片 */
 .credits-content-card {
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(15px);
   border-radius: 40px;
   padding: 50px 70px;
   width: 100%;
-  max-width: 500px; /* 根據文字長度調整 */
+  max-width: 500px;
 }
 
 .credits-list p {
   color: white;
   font-size: 16px;
-  line-height: 1.8; /* 增加行高讓閱讀更舒適 */
+  line-height: 1.8;
   text-align: center;
   letter-spacing: -0.32px;
   margin-bottom: 8px;
 }
 
-/* 手機版調整 */
-@media (max-width: 768px) {
-  .credits-title-badge {
-    padding: 15px 40px;
-  }
-  .credits-title-badge h3 {
-    font-size: 32px;
-  }
-  .credits-content-card {
-    padding: 30px;
-    width: 90%;
-  }
-}
-
-/* Footer 樣式 */
 .main-footer {
   position: relative;
   width: 100%;
@@ -861,10 +775,31 @@ header * {
   opacity: 0.6;
 }
 
-/* 響應式調整 */
-@media (max-width: 768px) {
-  .footer-content {
-    font-size: 11px;
-    padding: 0 10px;
+@media (max-width: 1100px) {
+  .mv-container {
+    flex-direction: column;
+    align-items: center;
   }
+  .mv-video-wrapper {
+    width: 100%;
+    flex: none;
+  }
+  .mv-content-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .logotype-content, .palette-card {
+    flex-direction: column;
+    padding: 30px;
+    gap: 20px;
+  }
+  .logo-text-left, .logo-text-right { width: 80%; }
+  .color-gradient-bar { width: 100%; height: 40px; }
+  #volume-slider { width: 60px; }
+  .credits-title-badge { padding: 15px 40px; }
+  .credits-title-badge h3 { font-size: 32px; }
+  .credits-content-card { padding: 30px; width: 90%; }
+  .footer-content { font-size: 11px; padding: 0 10px; }
 }

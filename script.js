@@ -1,13 +1,10 @@
 const overlay = document.getElementById('enter-overlay');
 overlay.addEventListener('click', () => {
-    overlay.classList.add('fade-out'); // 觸發 CSS 淡出動畫
-    
-    // 等動畫結束後再完全移除或隱藏（0.8s 需對應 CSS 的 transition 時間）
+    overlay.classList.add('fade-out');
     setTimeout(() => {
         overlay.style.display = 'none';
     }, 800);
-    
-    togglePlay(); // 開始播放音樂
+    togglePlay();
 });
 class TouchTexture {
   constructor() {
@@ -604,6 +601,13 @@ if (document.readyState === "loading") {
 // Custom cursor
 const cursor = document.getElementById('customCursor');
 
+document.addEventListener('mousemove', (e) => {
+    requestAnimationFrame(() => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+    });
+});
+
 if (cursor) {
   let mouseX = 0, mouseY = 0;
   let cursorX = 0, cursorY = 0;
@@ -656,42 +660,15 @@ const progressBar = document.getElementById('progressBar');
 
 let isPlaying = false;
 
-// 自動播放音樂
-function autoPlayMusic() {
-    // 嘗試播放
-    music.play().then(() => {
-        console.log("自動播放成功");
-        if (playIcon) playIcon.src = 'assets/stop.svg';
-        isPlaying = true;
-        // 成功播放後，移除監聽器，避免每次點擊都觸發播放邏輯
-        window.removeEventListener('click', autoPlayMusic);
-    }).catch(error => {
-        // 如果失敗（通常是瀏覽器擋掉），就靜靜等待下一次點擊
-        console.log("等待使用者互動以播放音樂...");
-    });
-}
-
-// 監聽全域點擊事件
-window.addEventListener('click', autoPlayMusic);
-
-// 針對手機端增加觸摸監聽
-window.addEventListener('touchstart', autoPlayMusic);
-
 // 切換播放/停止
 function togglePlay() {
-  console.log("按鈕被點擊了！目前播放狀態:", isPlaying); // Debug 用
-  
   if (isPlaying) {
     music.pause();
     playIcon.src = 'assets/play.svg';
   } else {
-    // 瀏覽器通常要求先有使用者互動才能播放
     music.play().then(() => {
-        console.log("音樂開始播放");
-        playIcon.src = 'assets/stop.svg';
-    }).catch(error => {
-        console.error("播放失敗:", error);
-    });
+      playIcon.src = 'assets/stop.svg';
+    }).catch(err => console.log('播放失敗:', err));
   }
   isPlaying = !isPlaying;
 }
@@ -699,6 +676,12 @@ function togglePlay() {
 if (playBtn) {
     playBtn.addEventListener('click', togglePlay);
 }
+
+// 嘗試自動播放
+music.play().then(() => {
+    isPlaying = true;
+    playIcon.src = 'assets/stop.svg';
+}).catch(() => {});
 
 const progressContainer = document.querySelector('.progress-container');
 if (progressContainer) {
@@ -915,3 +898,34 @@ if (footer) {
 
   footerObserver.observe(footer);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('bgMusic');
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeIcon = document.getElementById('volume-icon');
+    const volumeToggle = document.getElementById('volume-toggle');
+
+    if (audio && volumeSlider) {
+        audio.volume = volumeSlider.value;
+
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+            volumeIcon.style.opacity = e.target.value == 0 ? "0.3" : "1";
+        });
+
+        volumeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.volume > 0) {
+                volumeSlider.dataset.oldVol = audio.volume;
+                audio.volume = 0;
+                volumeSlider.value = 0;
+                volumeIcon.style.opacity = "0.3";
+            } else {
+                const old = volumeSlider.dataset.oldVol || 0.5;
+                audio.volume = old;
+                volumeSlider.value = old;
+                volumeIcon.style.opacity = "1";
+            }
+        });
+    }
+});
