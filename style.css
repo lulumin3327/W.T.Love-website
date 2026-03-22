@@ -359,29 +359,32 @@ a, button, .player-ctrl, #volume-slider {
 
 .volume-slider-wrapper {
   position: absolute;
-  bottom: 110%;
+  bottom: 50px; /* 放在音量圖示上方 */
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  width: 40px; /* 稍微加寬，更好操作 */
-  height: 120px;
-  background: rgba(20, 20, 20, 0.8); /* 深一點的背景更清楚 */
-  backdrop-filter: blur(10px);
+  transform: translateX(-50%);
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5); 
   border-radius: 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  height: 120px; 
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  pointer-events: auto !important; /* 確保滑桿本身可點擊 */
 }
 
 #volume-slider {
-  -webkit-appearance: none;
-  width: 100px; 
-  height: 20px;
-  background: transparent;
-  cursor: none !important; 
+  -webkit-appearance: none; /* 必加：移除 Chrome 預設樣式 */
+  appearance: none;
+  width: 4px;        /* 這裡變成長條的寬度 */
+  height: 100px;     /* 這裡變成長條的高度 */
+  background: rgba(255, 255, 255, 0.3);
+  outline: none;
+  border-radius: 2px;
+  /* 關鍵：轉向屬性 */
+  writing-mode: bt-lr; 
+  -webkit-appearance: slider-vertical; /* 支援部分舊版瀏覽器垂直顯示 */
 }
 
 #volume-slider::-webkit-slider-runnable-track {
@@ -394,13 +397,13 @@ a, button, .player-ctrl, #volume-slider {
 /* Chrome, Brave, Safari 的控制點 (Thumb) */
 #volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 12px;
+  appearance: none;
   width: 12px;
+  height: 12px;
+  background: #fff;
   border-radius: 50%;
-  background: white;
-  margin-top: -5.5px; /* (軌道高度/2) - (滑塊高度/2) 以對齊中心 */
   cursor: none !important;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* 增加一點點光暈感 */
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 /* Firefox 的控制點 (Thumb) */
@@ -410,11 +413,11 @@ a, button, .player-ctrl, #volume-slider {
   background: white;
 }
 #volume-slider::-moz-range-thumb {
-  height: 12px;
   width: 12px;
-  background: white;
-  border: none;
+  height: 12px;
+  background: #fff;
   border-radius: 50%;
+  border: none;
 }
 
 /* Firefox 移除預設虛線 */

@@ -1048,6 +1048,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const val = e.target.value;
             audio.volume = val;
             if (volumeIcon) volumeIcon.style.opacity = (val == 0) ? "0.3" : "1";
+            volumeSlider.style.background = `linear-gradient(to top, #fff ${val * 100}%, rgba(255,255,255,0.3) ${val * 100}%)`;
         });
     }
 
