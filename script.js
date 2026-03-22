@@ -683,6 +683,60 @@ if (playBtn) {
     playBtn.addEventListener('click', togglePlay);
 }
 
+// 音頻分析 - 愛心跳動效果
+let audioContext, analyser, dataArray;
+
+function initAudioAnalyzer() {
+  if (audioContext) return;
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  analyser = audioContext.createAnalyser();
+  analyser.fftSize = 256;
+  
+  const source = audioContext.createMediaElementSource(music);
+  source.connect(analyser);
+  analyser.connect(audioContext.destination);
+  
+  dataArray = new Uint8Array(analyser.frequencyBinCount);
+}
+
+function updateHeartPulse() {
+  if (!analyser || music.paused) {
+    document.querySelectorAll('.fixed-heart').forEach(heart => {
+      heart.style.transform = heart.dataset.baseTransform || '';
+    });
+    if (!music.paused) requestAnimationFrame(updateHeartPulse);
+    return;
+  }
+  
+  analyser.getByteFrequencyData(dataArray);
+  const average = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+  const scale = 1 + (average / 255) * 1.0;
+  
+  document.querySelectorAll('.fixed-heart').forEach((heart, index) => {
+    const depth = 1 + index * 0.08;
+    heart.style.transform = `scale(${scale * depth}) ${heart.dataset.baseTransform || ''}`;
+  });
+  
+  requestAnimationFrame(updateHeartPulse);
+}
+
+music.addEventListener('play', () => {
+  if (!audioContext) initAudioAnalyzer();
+  if (audioContext.state === 'suspended') audioContext.resume();
+  updateHeartPulse();
+});
+
+music.addEventListener('pause', () => {
+  document.querySelectorAll('.fixed-heart').forEach(heart => {
+    heart.style.transform = heart.dataset.baseTransform || '';
+  });
+});
+
+// 儲存愛心基礎位置
+document.querySelectorAll('.fixed-heart').forEach(heart => {
+  heart.dataset.baseTransform = heart.style.transform;
+});
+
 // 嘗試自動播放
 music.play().then(() => {
     isPlaying = true;

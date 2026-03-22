@@ -198,10 +198,10 @@ a, button, .player-ctrl, #volume-slider {
 
 .heart-1 { width: 200px; top: 10%; right: 5%; }
 .heart-2 { width: 94px; top: 30%; right: 5%; animation-delay: 1.2s; }
-.heart-3 { width: 100px; top: 30%; left: 3%; animation-delay: 2.5s; }
-.heart-4 { width: 94px; bottom: 25%; right: 8%; animation-delay: 0.8s; }
-.heart-5 { width: 72px; bottom: 37%; left: 3%; animation-delay: 3.1s; }
-.heart-6 { width: 200px; bottom: 15%; left: 2%; animation-delay: 1.8s; }
+.heart-3 { width: 120px; top: 20%; left: 6%; animation-delay: 2.5s; }
+.heart-4 { width: 80px; bottom: 30%; right: 8%; animation-delay: 0.8s; }
+.heart-5 { width: 65px; bottom: 50%; left: 4%; animation-delay: 3.1s; }
+.heart-6 { width: 150px; bottom: 15%; left: 5%; animation-delay: 1.8s; }
 
 @keyframes heartFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
