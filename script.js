@@ -996,13 +996,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // 點擊選項轉動唱片
   menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
-      const angle = item.getAttribute('data-angle');
       const targetId = item.getAttribute('data-target');
-
-      // 執行轉動動畫 (相對於初始位置)
-      // 我們加上 90 度是因為三角形在底部 (270度或-90度位置)
-      // 這裡的角度邏輯：點擊的項目會轉到三角形指向的位置
-      discWheel.style.transform = `rotate(${-(item.style.getPropertyValue('--i') * 45)}deg)`;
+      const itemIndex = parseInt(item.style.getPropertyValue('--i'));
+      
+      // 計算旋轉角度
+      // 每個 item 之間相隔 45 度 (360/8 = 45)
+      // 我們需要讓選中的項目旋轉到底部（270度位置，即三角形指向的地方）
+      // 
+      // 首頁(--i:0)在頂部(0度)，需要旋轉270度才能到底部
+      // 關於此曲(--i:1)在-45度，需要旋轉315度才能到底部
+      // 公式: targetRotation = 270 - (itemIndex * 45)
+      
+      const targetRotation = 270 - (itemIndex * 45);
+      
+      // 執行轉動動畫
+      discWheel.style.transform = `rotate(${targetRotation}deg)`;
 
       // 延遲跳轉，等旋轉快結束時再滾動頁面
       setTimeout(() => {
