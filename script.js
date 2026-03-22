@@ -8,7 +8,7 @@ overlay.addEventListener('click', () => {
         music.play().then(() => {
             isPlaying = true;
             playIcon.src = 'assets/stop.svg';
-        }).catch(err => console.log('進入播放失敗:', err));
+        }).catch(err => console.log('播放失敗:', err));
     }
 });
 class TouchTexture {
