@@ -1025,6 +1025,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeIcon = document.getElementById('volume-icon'); 
     const volumeToggle = document.getElementById('volume-toggle');
     const volumeSliderWrapper = document.querySelector('.volume-slider-wrapper');
+    const volumeFill = document.getElementById('volumeFill');
+    const volumeThumb = document.getElementById('volumeThumb');
     const playBtn = document.getElementById('playBtn');
     const playIcon = document.getElementById('playIcon');
 
@@ -1041,14 +1043,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const updateVolumeUI = (val) => {
+        const percent = val * 100;
+        if (volumeFill) volumeFill.style.height = percent + '%';
+        if (volumeThumb) volumeThumb.style.bottom = `calc(${percent}% - 6px)`;
+    };
+
     if (audio && volumeSlider) {
         audio.volume = volumeSlider.value;
+        updateVolumeUI(volumeSlider.value);
 
         volumeSlider.addEventListener('input', (e) => {
             const val = e.target.value;
             audio.volume = val;
+            updateVolumeUI(val);
             if (volumeIcon) volumeIcon.style.opacity = (val == 0) ? "0.3" : "1";
-            volumeSlider.style.background = `linear-gradient(to top, #fff ${val * 100}%, rgba(255,255,255,0.3) ${val * 100}%)`;
         });
     }
 
@@ -1059,11 +1068,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 volumeSlider.dataset.oldVol = audio.volume;
                 audio.volume = 0;
                 volumeSlider.value = 0;
+                updateVolumeUI(0);
                 if (volumeIcon) volumeIcon.style.opacity = "0.3";
             } else {
                 const oldVol = volumeSlider.dataset.oldVol || 0.5;
                 audio.volume = oldVol;
                 volumeSlider.value = oldVol;
+                updateVolumeUI(oldVol);
                 if (volumeIcon) volumeIcon.style.opacity = "1";
             }
         });
