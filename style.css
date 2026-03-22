@@ -406,14 +406,14 @@ a, button, .player-ctrl, #volume-slider {
 
 /* Menu 觸發按鈕樣式 */
 .menu-trigger {
-  position: fixed;
-  top: 30px;
-  right: 30px;
+  position: relative;
   z-index: 1000;
+  top: 2px;
   cursor: pointer;
   font-family: 'Iosevka Charon', sans-serif;
   letter-spacing: 2px;
   color: beige;
+  width: 24px;
 }
 
 /* 唱片選單容器 - 初始隱藏 */
