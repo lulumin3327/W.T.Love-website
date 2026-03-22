@@ -377,35 +377,44 @@ a, button, .player-ctrl, #volume-slider {
 }
 
 #volume-slider {
-  appearance: slider-vertical;
-  -webkit-appearance: slider-vertical;
-  width: 12px;
-  height: 90px;
-  cursor: none !important; /* 保持隱藏原生游標以使用您的 custom-cursor */
-  pointer-events: auto !important;
+  -webkit-appearance: none;
+  width: 100px; 
+  height: 20px;
+  background: transparent;
+  cursor: none !important; 
+}
+
+#volume-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px; /* 極細白線 */
+  background: white;
+  border: none;
 }
 
 /* Chrome, Brave, Safari 的控制點 (Thumb) */
 #volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 12px;
   height: 12px;
-  background: #ffffff;      /* 控制點顏色 */
+  width: 12px;
   border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  border: none;
+  background: white;
+  margin-top: -5.5px; /* (軌道高度/2) - (滑塊高度/2) 以對齊中心 */
+  cursor: none !important;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* 增加一點點光暈感 */
 }
+
 /* Firefox 的控制點 (Thumb) */
+#volume-slider::-moz-range-track {
+  width: 100%;
+  height: 1px;
+  background: white;
+}
 #volume-slider::-moz-range-thumb {
-  width: 12px;
   height: 12px;
-  background: #ffffff;
-  border-radius: 50%;
-  cursor: pointer;
+  width: 12px;
+  background: white;
   border: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
 }
 
 /* Firefox 移除預設虛線 */
