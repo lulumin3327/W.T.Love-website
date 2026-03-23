@@ -439,12 +439,17 @@ input[type="range"] {
 .menu-trigger {
   position: relative;
   z-index: 1000;
-  top: 2px;
   cursor: pointer;
-  font-family: 'Iosevka Charon', sans-serif;
-  letter-spacing: 2px;
-  color: beige;
-  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.menu-trigger img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
 }
 
 /* 唱片選單容器 - 初始隱藏 */
@@ -454,10 +459,10 @@ input[type="range"] {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
-  align-items: center; /* 置中對齊 */
+  align-items: center;
   z-index: 2000;
   opacity: 0;
   pointer-events: none;
@@ -469,115 +474,84 @@ input[type="range"] {
   pointer-events: auto;
 }
 
-/* 唱片容器 */
-.disc-container {
-  position: fixed;
-  bottom: -250px; /* 調整這個值，讓圓盤只露出一半，避免完全超出或遮擋過多 */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 500px;
-  height: 500px;
-  z-index: 100;
-  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* 平滑旋轉 */
-  pointer-events: none; /* 避免擋住下方的點擊，內層元素再開開啟 */
+.disc-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.disc {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  pointer-events: auto;
+.close-menu {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .indicator-triangle {
   position: absolute;
-  top: 0;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
   width: 30px;
   z-index: 110;
 }
 
-.disc-menu.active .disc-container {
-  transform: scale(1) translateY(0); /* 彈下並縮放到正常大小 */
-}
-
-/* 唱片本體 */
 .disc-wheel {
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(30, 30, 30, 0.5);
   backdrop-filter: blur(10px);
   position: relative;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-origin: center center; /* 以愛心為中心旋轉 */
+  transform-origin: center center;
 }
 
-.disc-wheel > img {
-  position: absolute;
+.disc-wheel img {
   width: 100%;
   height: 100%;
-  opacity: 0.2; /* 背景多邊形圖片 */
+  opacity: 0.3;
   pointer-events: none;
 }
 
-/* 軸心愛心 */
-.disc-center-heart {
+.disc-nav {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30px;
-  z-index: 10;
+  width: 300px;
+  height: 300px;
 }
 
-/* 目的地三角形 (固定不動，在 disc 下方) */
-.target-arrow {
-  position: absolute;
-  bottom: 10px; /* 在唱片容器底部 */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 25px solid white; /* 指向上方的三角形 */
-  z-index: 5;
-}
-
-/* 選單文字分佈 */
-.menu-item {
+.disc-item {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 150px;
+  width: 100px;
   text-align: center;
-  transform-origin: 0 0;
-  /* 根據 index 旋轉文字位置 */
-  transform: rotate(calc(var(--i) * 45deg)) translateY(-180px) translateX(-50%);
-  cursor: pointer;
-  font-size: 16px;
-  transition: color 0.3s;
-  white-space: nowrap;
-}
-
-.menu-item:hover {
-  color: #ffb7c5; /* 懸停色 */
-}
-
-/* 關閉按鈕 */
-.close-menu {
-  position: absolute;
-  top: 280px;
-  right: -50px;
-  background: none;
-  border: none;
+  transform-origin: center center;
   color: white;
-  font-size: 30px;
-  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
 }
+
+.disc-item:hover {
+  opacity: 1;
+}
+
+.disc-item:nth-child(1) { transform: translate(-50%, -180px); }
+.disc-item:nth-child(2) { transform: translate(-50%, -180px) rotate(72deg); }
+.disc-item:nth-child(3) { transform: translate(-50%, -180px) rotate(144deg); }
+.disc-item:nth-child(4) { transform: translate(-50%, -180px) rotate(216deg); }
+.disc-item:nth-child(5) { transform: translate(-50%, -180px) rotate(288deg); }
 
 .volume-ctrl img:hover, .menu-ctrl img:hover {
   opacity: 1;

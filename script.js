@@ -1009,40 +1009,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const discMenu = document.getElementById('discMenu');
   const closeMenu = document.getElementById('closeMenu');
   const discWheel = document.getElementById('discWheel');
-  const menuItems = document.querySelectorAll('.menu-item');
+  const discItems = document.querySelectorAll('.disc-item');
 
-  // 打開選單
-  menuTrigger.addEventListener('click', () => {
-    discMenu.classList.add('active');
-  });
+  if (menuTrigger && discMenu) {
+    menuTrigger.addEventListener('click', () => {
+      discMenu.classList.add('active');
+    });
+  }
 
-  // 關閉選單
-  closeMenu.addEventListener('click', () => {
-    discMenu.classList.remove('active');
-  });
+  if (closeMenu && discMenu) {
+    closeMenu.addEventListener('click', () => {
+      discMenu.classList.remove('active');
+    });
+  }
 
-  // 點擊選項轉動唱片
-  menuItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      const targetId = item.getAttribute('data-target');
-      const itemIndex = parseInt(item.style.getPropertyValue('--i'));
-      
-      // 計算旋轉角度
-      // 每個 item 之間相隔 45 度 (360/8 = 45)
-      // 我們需要讓選中的項目旋轉到底部（270度位置，即三角形指向的地方）
-      // 
-      // 首頁(--i:0)在頂部(0度)，需要旋轉270度才能到底部
-      // 關於此曲(--i:1)在-45度，需要旋轉315度才能到底部
-      // 公式: targetRotation = 270 - (itemIndex * 45)
-      
-      const targetRotation = 270 - (itemIndex * 45);
-      
-      // 執行轉動動畫
-      discWheel.style.transform = `rotate(${targetRotation}deg)`;
-
-      // 延遲跳轉，等旋轉快結束時再滾動頁面
-      setTimeout(() => {
+  if (discMenu) {
+    discMenu.addEventListener('click', (e) => {
+      if (e.target === discMenu) {
         discMenu.classList.remove('active');
+      }
+    });
+  }
+
+  discItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = item.getAttribute('href');
+      const itemIndex = parseInt(item.getAttribute('data-index'));
+      const targetRotation = itemIndex * 72;
+      
+      if (discWheel) {
+        discWheel.style.transform = `rotate(${targetRotation}deg)`;
+      }
+
+      setTimeout(() => {
+        if (discMenu) {
+          discMenu.classList.remove('active');
+        }
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth' });
