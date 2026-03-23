@@ -1037,10 +1037,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetId = item.getAttribute('href');
       const itemIndex = parseInt(item.getAttribute('data-index'));
       
-      // 7個項目，每個相隔 360/7 ≈ 51.43度
-      // 三角形在下方（180度位置）
-      // 要讓選中的項目旋轉到下方對準三角形
-      const anglePerItem = 360 / 7; // 51.428571...
+      // 7個項目分布在右半圓（0°到180°），每個相隔30度
+      // 首頁(0) = 0°, 關於此曲(1) = 30°, 視覺識別(2) = 60°...社群連結(6) = 180°
+      const anglePerItem = 30; // 固定每個間隔30度
       const currentAngle = itemIndex * anglePerItem;
       const targetRotation = 180 - currentAngle;
       
