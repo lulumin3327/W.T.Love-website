@@ -1345,26 +1345,37 @@ if (footer) {
 
 // ========== 導覽列平滑滾動 ==========
 // 為 footer 中的導覽連結添加平滑滾動動畫
-(function initNavLinks() {
+setTimeout(() => {
   const navLinks = document.querySelectorAll('.nav-links a');
   
+  console.log('🔍 尋找導覽連結...');
+  console.log('找到', navLinks.length, '個 .nav-links a 元素');
+  
   if (navLinks.length > 0) {
-    navLinks.forEach(link => {
+    navLinks.forEach((link, index) => {
+      const href = link.getAttribute('href');
+      console.log(`  連結 ${index + 1}: ${href}`);
+      
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const targetId = link.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
+        console.log('🖱️ 點擊了:', href);
+        
+        const targetElement = document.querySelector(href);
+        console.log('目標元素:', targetElement);
         
         if (targetElement) {
+          console.log('✅ 開始平滑滾動到:', href);
           targetElement.scrollIntoView({ 
             behavior: 'smooth', 
             block: 'start' 
           });
+        } else {
+          console.warn('❌ 找不到目標元素:', href);
         }
       });
     });
-    console.log('✅ 導覽列平滑滾動已啟用，共', navLinks.length, '個連結');
+    console.log('✅ 導覽列平滑滾動已啟用');
   } else {
     console.warn('⚠️ 未找到 .nav-links a 元素');
   }
-})();
+}, 1000); // 延遲1秒確保DOM完全載入
