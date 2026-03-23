@@ -460,13 +460,16 @@ input[type="range"] {
   width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
   display: flex;
+  border-radius: 40px;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
+  z-index: 10000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
+  overflow: hidden;
 }
 
 .disc-menu.active {
@@ -479,45 +482,80 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .close-menu {
   position: absolute;
-  top: -60px;
-  right: -60px;
-  background: none;
-  border: none;
+  top: 20px;
+  right: -65px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   color: white;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
 }
 
 .indicator-triangle {
   position: absolute;
-  top: -40px;
+  top: -50px;
   left: 50%;
   transform: translateX(-50%);
   width: 30px;
+  height: auto;
   z-index: 110;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
 .disc-wheel {
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   border-radius: 50%;
-  background: rgba(30, 30, 30, 0.5);
+  background: rgba(50, 50, 50, 0.6);
   backdrop-filter: blur(10px);
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center center;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .disc-wheel img {
   width: 100%;
   height: 100%;
-  opacity: 0.3;
+  opacity: 0.6;
   pointer-events: none;
+}
+
+.heart-disc {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heart-disc img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .disc-nav {
@@ -525,33 +563,56 @@ input[type="range"] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
+  width: 450px;
+  height: 450px;
 }
 
 .disc-item {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100px;
+  width: auto;
   text-align: center;
-  transform-origin: center center;
   color: white;
   text-decoration: none;
-  font-size: 14px;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.85;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .disc-item:hover {
   opacity: 1;
+  transform: scale(1.1);
 }
 
-.disc-item:nth-child(1) { transform: translate(-50%, -180px); }
-.disc-item:nth-child(2) { transform: translate(-50%, -180px) rotate(72deg); }
-.disc-item:nth-child(3) { transform: translate(-50%, -180px) rotate(144deg); }
-.disc-item:nth-child(4) { transform: translate(-50%, -180px) rotate(216deg); }
-.disc-item:nth-child(5) { transform: translate(-50%, -180px) rotate(288deg); }
+/* 使用polar coordinates排列,半徑150px */
+/* 首頁 - 0度 (頂部) */
+.disc-item:nth-child(1) { 
+  transform: translate(-50%, -150px); 
+}
+
+/* 關於此曲 - 72度 */
+.disc-item:nth-child(2) { 
+  transform: translate(-50%, -150px) rotate(72deg) translateY(-20px) rotate(-72deg);
+}
+
+/* 視覺識別 - 144度 */
+.disc-item:nth-child(3) { 
+  transform: translate(-50%, -150px) rotate(144deg) translateY(-20px) rotate(-144deg);
+}
+
+/* MV - 216度 */
+.disc-item:nth-child(4) { 
+  transform: translate(-50%, -150px) rotate(216deg) translateY(-20px) rotate(-216deg);
+}
+
+/* 製作名單 - 288度 */
+.disc-item:nth-child(5) { 
+  transform: translate(-50%, -150px) rotate(288deg) translateY(-20px) rotate(-288deg);
+}
 
 .volume-ctrl img:hover, .menu-ctrl img:hover {
   opacity: 1;

@@ -1036,20 +1036,28 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const targetId = item.getAttribute('href');
       const itemIndex = parseInt(item.getAttribute('data-index'));
-      const targetRotation = itemIndex * 72;
+      
+      // 計算旋轉角度 - 每個選項間隔72度 (360/5)
+      // 反向旋轉讓選中的項目對準三角形指標
+      const targetRotation = -(itemIndex * 72);
       
       if (discWheel) {
         discWheel.style.transform = `rotate(${targetRotation}deg)`;
       }
 
+      // 等待旋轉動畫完成後再關閉menu和滾動
       setTimeout(() => {
         if (discMenu) {
           discMenu.classList.remove('active');
         }
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
-        }
+        
+        // 再等待menu關閉動畫完成
+        setTimeout(() => {
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 500);
       }, 800);
     });
   });

@@ -4,20 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>W.T.Love</title>
-
+ 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&family=Iosevka+Charon:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
+ 
 <body>
   <div id="enter-overlay">
     <p><span>CLICK TO ENTER</span></p>
   </div>
-
+ 
   <div class="custom-cursor" id="customCursor"></div>
 
+<!-- Disc Menu - 獨立於header的全螢幕覆蓋層 -->
+<div class="disc-menu" id="discMenu">
+  <div class="disc-content">
+    <button class="close-menu" id="closeMenu">✕</button>
+    <div class="disc-wheel" id="discWheel">
+      <div class="heart-disc">
+      <img src="assets/heart-disc.svg" alt="disc">
+      </div>
+    </div>
+    <img src="assets/polygon-disc.svg" class="indicator-triangle" alt="pointer">
+    <nav class="disc-nav">
+      <a href="#home" class="disc-item" data-index="0">首頁</a>
+      <a href="#about" class="disc-item" data-index="1">關於此曲</a>
+      <a href="#visual" class="disc-item" data-index="2">視覺識別</a>
+      <a href="#MV" class="disc-item" data-index="3">MV</a>
+      <a href="#credits" class="disc-item" data-index="4">製作名單</a>
+    </nav>
+  </div>
+</div>
+ 
 <header>
   <div class="audio-player">
       <div class="player-ctrl" id="playBtn">
@@ -46,30 +66,13 @@
 <div class="menu-trigger" id="menuTrigger">
   <img src="assets/menu.svg" alt="menu">
 </div>
-
-<div class="disc-menu" id="discMenu">
-  <div class="disc-content">
-    <button class="close-menu" id="closeMenu">✕</button>
-    <div class="disc-wheel" id="discWheel">
-      <img src="assets/heart-disc.svg" alt="disc">
-    </div>
-    <img src="assets/polygon-disc.svg" class="indicator-triangle" alt="pointer">
-    <nav class="disc-nav">
-      <a href="#home" class="disc-item" data-index="0">首頁</a>
-      <a href="#about" class="disc-item" data-index="1">關於此曲</a>
-      <a href="#VI" class="disc-item" data-index="2">視覺識別</a>
-      <a href="#MV" class="disc-item" data-index="3">MV</a>
-      <a href="#credits" class="disc-item" data-index="4">製作名單</a>
-    </nav>
-  </div>
-</div>
-
+ 
 </header>
-
+ 
 <audio id="bgMusic" loop>
   <source src="assets/audio-music.mp3" type="audio/mpeg">
 </audio>
-
+ 
 <div class="fixed-heart-overlay">
     <img src="assets/heart.svg" class="fixed-heart heart-1" alt="heart">
     <img src="assets/heart.svg" class="fixed-heart heart-2" alt="heart">
@@ -78,14 +81,14 @@
     <img src="assets/heart.svg" class="fixed-heart heart-5" alt="heart">
     <img src="assets/heart.svg" class="fixed-heart heart-6" alt="heart">
 </div>
-
+ 
 <section id="home" class="hero">
   <div class="hero-container">
     <div class="wt-love-wrapper">
       <img src="assets/logotype.svg" class="logotype-svg" alt="W.T.Love">
     </div>
   </div>
-
+ 
   <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
     <filter id="liquid-texture">
       <feTurbulence type="fractalNoise" baseFrequency="0.999" numOctaves="3" seed="6736" />
@@ -93,10 +96,10 @@
     </filter>
   </svg>
 </section>
-
+ 
 <section id="about" class="about">
   <h2>關於此曲</h2>
-
+ 
   <div class="about-album">
     <div class="album-cd">
       <img src="assets/cd.svg" alt="CD">
@@ -112,7 +115,7 @@
     <p>與其說是在思考愛情，其實更像是把那些荒謬的情緒發洩出來。</p>
   </div>
 </section>
-
+ 
 <section id="visual" class="vi-section">
   <div class="vi-background"></div>
   
@@ -123,7 +126,7 @@
       <img src="assets/text2.svg" alt="右標準字" class="logo-text-right">
     </div>
   </div>
-
+ 
   <div class="vi-container color-palette-container">
     <div><h2>標準色</h2></div>
     <div class="palette-card">
@@ -137,41 +140,41 @@
     </div>
   </div>
 </section>
-
+ 
 <section id="photography" class="photography">
   <div class="photography-title">
     <h2>形象照</h2>
   </div>
-
+ 
   <div class="visuals-container">
     <div class="bg-img-wrapper">
       <img src="assets/photography-bg.jpg" alt="Background" class="bg-img">
     </div>
-
+ 
     <div class="main-img-anchor">
       <div class="main-img-card">
         <img src="assets/photography-main.jpg" alt="Main Photography" class="rectangle-img">
       </div>
     </div>
 </section>
-
+ 
 <section id="MV" class="mv-section">
   <div class="mv-bg-decoration">
     <img src="assets/bg-mv.png" alt="" class="mv-bg-img">
   </div>
-
+ 
   <div class="mv-container">
     <div class="mv-video-wrapper">
       <div class="video-embed">
         <div id="player"></div>
       </div>
     </div>
-
+ 
     <div class="mv-content-container">
       <div class="mv-title-badge">
         <h2>MV<h2>
       </div>
-
+ 
       <div class="mv-description-block">
         <div class="description-text">
           <p>
@@ -188,7 +191,7 @@
   
 <section id="credits" class="credits">
       <h2>製作名單</h2>
-
+ 
     <div class="credits-content-card">
       <div class="credits-list">
         <p>作詞：陽流Sunflow</p>
@@ -213,14 +216,14 @@
     </div>
   </div>
 </section>
-
+ 
 <section id="contact" class="contact-section">
   <div class="contact-container">
     <div class="contact-content-card">
       <div class="contact-logo">
         <img src="assets/logo.svg" alt="W.T.Love Logo" class="footer-logo-img">
         </div>
-
+ 
       <div class="contact-list">
         <div class="contact-item">
           <p class="label">Facebook:</p>
@@ -232,7 +235,7 @@
         </div>
         <div class="contact-item">
           <p class="label">Email:</p>
-          <p class="value">udc@yuntech.edu.tw</p>
+          <p class="value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a1f0e092a131f041e0f0902440f0e1f441e1d">[email&#160;protected]</a></p>
         </div>
         <div class="contact-item">
           <p class="label">電話：</p>
@@ -241,7 +244,7 @@
           <a>6201,6202</a>
         </div>
       </div>
-
+ 
       <div class="contact-nav">
         <p class="nav-title">導覽:</p>
         <ul class="nav-links">
@@ -257,8 +260,8 @@
     </div>
   </div>
 </section>
-
-
+ 
+ 
 <footer class="main-footer">
   <div class="footer-content">
     <p class="copyright">© 2026 All Rights Reserved.</p>
