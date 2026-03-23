@@ -512,7 +512,7 @@ input[type="range"] {
 
 .indicator-triangle {
   position: absolute;
-  top: -50px;
+  bottom: -50px;
   left: 50%;
   transform: translateX(-50%);
   width: 30px;
@@ -565,6 +565,7 @@ input[type="range"] {
   transform: translate(-50%, -50%);
   width: 450px;
   height: 450px;
+  writing-mode: vertical-rl;
 }
 
 .disc-item {
@@ -578,40 +579,54 @@ input[type="range"] {
   font-size: 16px;
   font-weight: 400;
   opacity: 0.85;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease;
   white-space: nowrap;
   cursor: pointer;
+  transform-origin: center center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
 .disc-item:hover {
   opacity: 1;
-  transform: scale(1.1);
 }
 
-/* 使用polar coordinates排列,半徑150px */
+/* 7個項目圍繞圓心，每個相隔 360/7 ≈ 51.43度 */
+/* 半徑180px，文字垂直排列，頭朝向圓心 */
+
 /* 首頁 - 0度 (頂部) */
 .disc-item:nth-child(1) { 
-  transform: translate(-50%, -150px); 
+  transform: translate(-50%, -50%) rotate(0deg) translateY(-180px);
 }
 
-/* 關於此曲 - 72度 */
+/* 關於此曲 - 51.43度 */
 .disc-item:nth-child(2) { 
-  transform: translate(-50%, -150px) rotate(72deg) translateY(-20px) rotate(-72deg);
+  transform: translate(-50%, -50%) rotate(51.43deg) translateY(-180px);
 }
 
-/* 視覺識別 - 144度 */
+/* 視覺識別 - 102.86度 */
 .disc-item:nth-child(3) { 
-  transform: translate(-50%, -150px) rotate(144deg) translateY(-20px) rotate(-144deg);
+  transform: translate(-50%, -50%) rotate(102.86deg) translateY(-180px);
 }
 
-/* MV - 216度 */
+/* 形象攝影 - 154.29度 */
 .disc-item:nth-child(4) { 
-  transform: translate(-50%, -150px) rotate(216deg) translateY(-20px) rotate(-216deg);
+  transform: translate(-50%, -50%) rotate(154.29deg) translateY(-180px);
 }
 
-/* 製作名單 - 288度 */
+/* MV - 205.71度 */
 .disc-item:nth-child(5) { 
-  transform: translate(-50%, -150px) rotate(288deg) translateY(-20px) rotate(-288deg);
+  transform: translate(-50%, -50%) rotate(205.71deg) translateY(-180px);
+}
+
+/* 製作名單 - 257.14度 */
+.disc-item:nth-child(6) { 
+  transform: translate(-50%, -50%) rotate(257.14deg) translateY(-180px);
+}
+
+/* 社群連結 - 308.57度 */
+.disc-item:nth-child(7) { 
+  transform: translate(-50%, -50%) rotate(308.57deg) translateY(-180px);
 }
 
 .volume-ctrl img:hover, .menu-ctrl img:hover {

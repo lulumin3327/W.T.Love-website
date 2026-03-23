@@ -1037,9 +1037,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetId = item.getAttribute('href');
       const itemIndex = parseInt(item.getAttribute('data-index'));
       
-      // 計算旋轉角度 - 每個選項間隔72度 (360/5)
-      // 反向旋轉讓選中的項目對準三角形指標
-      const targetRotation = -(itemIndex * 72);
+      // 7個項目，每個相隔 360/7 ≈ 51.43度
+      // 三角形在下方（180度位置）
+      // 要讓選中的項目旋轉到下方對準三角形
+      const anglePerItem = 360 / 7; // 51.428571...
+      const currentAngle = itemIndex * anglePerItem;
+      const targetRotation = 180 - currentAngle;
       
       if (discWheel) {
         discWheel.style.transform = `rotate(${targetRotation}deg)`;
