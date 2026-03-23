@@ -512,7 +512,7 @@ input[type="range"] {
 
 .indicator-triangle {
   position: absolute;
-  bottom: -50px;
+  bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
   width: 30px;
@@ -583,7 +583,7 @@ input[type="range"] {
   white-space: nowrap;
   cursor: pointer;
   transform-origin: center center;
-  writing-mode: vertical-rl;
+  writing-mode: vertical-lr;
   text-orientation: mixed;
 }
 
@@ -599,34 +599,34 @@ input[type="range"] {
   transform: translate(-50%, -50%) rotate(0deg) translateY(-180px);
 }
 
-/* 關於此曲 - 51.43度 */
+/* 關於此曲*/
 .disc-item:nth-child(2) { 
-  transform: translate(-50%, -50%) rotate(51.43deg) translateY(-180px);
+  transform: translate(-50%, -50%) rotate(30deg) translateY(-180px);
 }
 
-/* 視覺識別 - 102.86度 */
+/* 視覺識別 */
 .disc-item:nth-child(3) { 
-  transform: translate(-50%, -50%) rotate(102.86deg) translateY(-180px);
+  transform: translate(-50%, -50%) rotate(60deg) translateY(-180px);
 }
 
-/* 形象攝影 - 154.29度 */
+/* 形象攝影 */
 .disc-item:nth-child(4) { 
-  transform: translate(-50%, -50%) rotate(154.29deg) translateY(-180px);
+  transform: translate(-50%, -50%) rotate(90deg) translateY(-180px);
 }
 
-/* MV - 205.71度 */
+/* MV */
 .disc-item:nth-child(5) { 
-  transform: translate(-50%, -50%) rotate(205.71deg) translateY(-180px);
+  transform: translate(-50%, -50%) rotate(120deg) translateY(-180px);
 }
 
-/* 製作名單 - 257.14度 */
+/* 製作名單 */
 .disc-item:nth-child(6) { 
-  transform: translate(-50%, -50%) rotate(257.14deg) translateY(-180px);
+  transform: translate(-50%, -50%) rotate(150deg) translateY(-180px);
 }
 
-/* 社群連結 - 308.57度 */
+/* 社群連結*/
 .disc-item:nth-child(7) { 
-  transform: translate(-50%, -50%) rotate(308.57deg) translateY(-180px);
+  transform: translate(-50%, -50%) rotate(180deg) translateY(-180px);
 }
 
 .volume-ctrl img:hover, .menu-ctrl img:hover {

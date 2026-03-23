@@ -1048,6 +1048,21 @@ document.addEventListener('DOMContentLoaded', () => {
         discWheel.style.transform = `rotate(${targetRotation}deg)`;
       }
 
+      // 計算每個文字項目旋轉後的最終角度，並調整文字方向
+      discItems.forEach((textItem, index) => {
+        const textCurrentAngle = index * anglePerItem;
+        // 旋轉後的最終角度
+        let finalAngle = (textCurrentAngle + targetRotation) % 360;
+        if (finalAngle < 0) finalAngle += 360;
+        
+        // 如果文字在下半圓（90度到270度之間），額外旋轉180度
+        if (finalAngle > 90 && finalAngle < 270) {
+          textItem.style.transform = `translate(-50%, -50%) rotate(${textCurrentAngle}deg) translateY(-180px) rotate(180deg)`;
+        } else {
+          textItem.style.transform = `translate(-50%, -50%) rotate(${textCurrentAngle}deg) translateY(-180px)`;
+        }
+      });
+
       // 等待旋轉動畫完成後再關閉menu和滾動
       setTimeout(() => {
         if (discMenu) {
