@@ -584,7 +584,7 @@ input[type="range"] {
   white-space: nowrap;
   cursor: pointer;
   transform-origin: center center;
-  writing-mode: vertical-lr;
+  writing-mode: vertical-rl;
   text-orientation: mixed;
 }
 

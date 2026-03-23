@@ -1078,6 +1078,74 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 800);
     });
   });
+
+  // ========== Disc 自動跟隨當前 Section ==========
+  
+  // 功能1: 頁面載入時，Disc 預設指向首頁（0度）
+  if (discWheel) {
+    discWheel.style.transform = 'rotate(180deg)'; // 首頁在0度，旋轉180度讓它對準三角形
+  }
+
+  // 功能2: 滾動偵測 - 當使用者滾動時，Disc 自動指向當前 section
+  const sections = [
+    { id: 'home', index: 0 },
+    { id: 'about', index: 1 },
+    { id: 'visual', index: 2 },
+    { id: 'photography', index: 3 },
+    { id: 'MV', index: 4 },
+    { id: 'credits', index: 5 },
+    { id: 'contact', index: 6 }
+  ];
+
+  let currentSectionIndex = 0;
+
+  // 使用 Intersection Observer 偵測當前顯示的 section
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // 找到當前 section 的 index
+        const sectionId = entry.target.id;
+        const section = sections.find(s => s.id === sectionId);
+        
+        if (section && section.index !== currentSectionIndex) {
+          currentSectionIndex = section.index;
+          
+          // 計算 disc 應該旋轉的角度
+          const anglePerItem = 30;
+          const currentAngle = section.index * anglePerItem;
+          const targetRotation = 180 - currentAngle;
+          
+          // 更新 disc 的旋轉角度
+          if (discWheel && !discMenu.classList.contains('active')) {
+            discWheel.style.transform = `rotate(${targetRotation}deg)`;
+            
+            // 同時更新文字方向
+            discItems.forEach((textItem, index) => {
+              const textCurrentAngle = index * anglePerItem;
+              let finalAngle = (textCurrentAngle + targetRotation) % 360;
+              if (finalAngle < 0) finalAngle += 360;
+              
+              if (finalAngle > 90 && finalAngle < 270) {
+                textItem.style.transform = `translate(-50%, -50%) rotate(${textCurrentAngle}deg) translateY(-180px) rotate(180deg)`;
+              } else {
+                textItem.style.transform = `translate(-50%, -50%) rotate(${textCurrentAngle}deg) translateY(-180px)`;
+              }
+            });
+          }
+        }
+      }
+    });
+  }, {
+    threshold: 0.5 // 當 section 50% 進入視窗時觸發
+  });
+
+  // 開始觀察所有 sections
+  sections.forEach(section => {
+    const element = document.getElementById(section.id);
+    if (element) {
+      sectionObserver.observe(element);
+    }
+  });
 });
 
 // 開始觀察所有 .about-album 元素
@@ -1274,3 +1342,29 @@ if (footer) {
 
   footerObserver.observe(footer);
 }
+
+// ========== 導覽列平滑滾動 ==========
+// 為 footer 中的導覽連結添加平滑滾動動畫
+(function initNavLinks() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  
+  if (navLinks.length > 0) {
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      });
+    });
+    console.log('✅ 導覽列平滑滾動已啟用，共', navLinks.length, '個連結');
+  } else {
+    console.warn('⚠️ 未找到 .nav-links a 元素');
+  }
+})();
