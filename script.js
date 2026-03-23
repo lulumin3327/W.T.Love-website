@@ -1212,6 +1212,24 @@ if(creditsSection) {
   creditsObserver.observe(creditsSection);
 }
 
+const contactCard = document.querySelector('.contact-content-card');
+if (contactCard) {
+  contactCard.style.opacity = '0';
+  contactCard.style.transform = 'translateY(20px)';
+  contactCard.style.transition = 'all 1.2s ease-out';
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        contactCard.style.opacity = '1';
+        contactCard.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(contactCard);
+}
+
 // Footer 淡入效果
 const footer = document.querySelector('.main-footer');
 if (footer) {
