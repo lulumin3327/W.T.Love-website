@@ -1,3 +1,9 @@
+/*
+ * Original code: "Interactive Liquid Gradient using Three.js"
+ * Found on CodePen
+ * Credits to the original author
+ */
+
 const overlay = document.getElementById('enter-overlay');
 const bgMusic = document.getElementById('bgMusic');
 
